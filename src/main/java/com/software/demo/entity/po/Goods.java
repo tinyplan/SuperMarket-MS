@@ -1,13 +1,19 @@
-package com.software.demo.entity;
+package com.software.demo.entity.po;
+
+import java.math.BigDecimal;
 
 /**
  * @author tinyplan
  * 2021/5/27
+ * 2021/5/30:
+ *      - 成员变量type类型更改为String
+ *      - 去除成员变量stock，使类结构与数据库表结构相同
+ *      - 添加新的构造方法, 以适配结果集映射
  */
 public class Goods {
     private String id;
     private String name;
-    private Integer type;
+    private String type;
     private Float cost;
     private Float price;
     private String productionDate;
@@ -15,9 +21,8 @@ public class Goods {
     private Integer duration;
     // 过期时间
     private String expirationDate;
-    private Integer stock;
 
-    public Goods(String id, String name, Integer type, Float cost, Float price, String productionDate, Integer duration, String expirationDate, Integer stock) {
+    public Goods(String id, String name, String type, Float cost, Float price, String productionDate, Integer duration, String expirationDate) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -26,7 +31,10 @@ public class Goods {
         this.productionDate = productionDate;
         this.duration = duration;
         this.expirationDate = expirationDate;
-        this.stock = stock;
+    }
+
+    public Goods(String id, String name, String type, BigDecimal cost, BigDecimal price, String productionDate, Integer duration, String expirationDate) {
+        this(id, name, type, cost.floatValue(), price.floatValue(), expirationDate, duration, expirationDate);
     }
 
     public String getId() {
@@ -45,11 +53,11 @@ public class Goods {
         this.name = name;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -91,13 +99,5 @@ public class Goods {
 
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 }
