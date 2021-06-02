@@ -18,7 +18,7 @@ public class GoodsIdUtil {
      *
      * @return 商品的import_id
      */
-    private static String generateImportId() {
+    public static String generateImportId() {
         return new SimpleDateFormat("yyyyMMdd").format(new Date());
     }
 

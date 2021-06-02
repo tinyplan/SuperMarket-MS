@@ -100,4 +100,18 @@ public class Goods {
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", cost=" + cost +
+                ", price=" + price +
+                ", productionDate='" + productionDate + '\'' +
+                ", duration=" + duration +
+                ", expirationDate='" + expirationDate + '\'' +
+                '}';
+    }
 }
