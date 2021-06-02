@@ -35,9 +35,8 @@ public class Goods {
         this.expirationDate = expirationDate;
     }
 
-
     public Goods(String id, String name, String type, BigDecimal cost, BigDecimal price, String productionDate, Integer duration, String expirationDate) {
-        this(id, name, type, cost.floatValue(), price.floatValue(), expirationDate, duration, expirationDate);
+        this(id, name, type, cost.floatValue(), price.floatValue(), productionDate, duration, expirationDate);
     }
 
     public String getId() {
