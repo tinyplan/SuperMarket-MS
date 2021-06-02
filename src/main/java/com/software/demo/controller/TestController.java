@@ -1,5 +1,6 @@
 package com.software.demo.controller;
 
+import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.po.Goods;
 import com.software.demo.service.TestService;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping("/test")
+    @Authorization
     public List<Goods> test() {
         return testService.testQueryValid();
     }
