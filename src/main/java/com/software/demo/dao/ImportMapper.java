@@ -17,9 +17,10 @@ public interface ImportMapper {
     int insertImport(Imports imports);
 
     @Select(" select * from import where import_goods_sum > 0")
-    List<Imports> getAllImports();
+    List<Imports> selectAllImports();
 
     @Update(" update import set import_goods_sum = #{import_goods_sum} " +
             " where import_id = #{import_id} and goods_base_id = #{goods_base_id}")
     boolean updateImport(String import_id,String goods_base_id,int import_goods_sum);
+
 }

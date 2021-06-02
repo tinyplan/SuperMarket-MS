@@ -22,6 +22,8 @@ public class Goods {
     // 过期时间
     private String expirationDate;
 
+    public Goods(){}
+
     public Goods(String id, String name, String type, Float cost, Float price, String productionDate, Integer duration, String expirationDate) {
         this.id = id;
         this.name = name;
@@ -32,6 +34,7 @@ public class Goods {
         this.duration = duration;
         this.expirationDate = expirationDate;
     }
+
 
     public Goods(String id, String name, String type, BigDecimal cost, BigDecimal price, String productionDate, Integer duration, String expirationDate) {
         this(id, name, type, cost.floatValue(), price.floatValue(), expirationDate, duration, expirationDate);
