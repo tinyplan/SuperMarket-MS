@@ -1,8 +1,10 @@
 package com.software.demo;
 
+import com.software.demo.dao.GoodsBaseInfoMapper;
 import com.software.demo.dao.GoodsMapper;
 import com.software.demo.dao.ImportMapper;
 import com.software.demo.entity.po.Goods;
+import com.software.demo.entity.po.GoodsBaseInfo;
 import com.software.demo.entity.po.Imports;
 import com.software.demo.util.GoodsIdUtil;
 import com.software.demo.util.TimeFormatUtil;
@@ -22,6 +24,32 @@ class DemoApplicationTests {
     ImportMapper importMapper;
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    GoodsBaseInfoMapper infoMapper;
+
+    @Test
+    void insertGoodsInfo(){
+        GoodsBaseInfo info = new GoodsBaseInfo();
+        info.setGoods_name("小熊饼干");
+        info.setGoods_base_id(GoodsIdUtil.generateGoodsId("小熊饼干"));
+        info.setGoods_type("饼干");
+        infoMapper.insertGoodsBaseInfo(info);
+    }
+
+    @Test
+    void selectGoodsInfo(){
+        GoodsBaseInfo info = infoMapper.selectGoodsBaseInfo(GoodsIdUtil.generateGoodsId("小熊饼干"));
+        System.out.println(info);
+    }
+
+    @Test
+    void updateGoodsInfo(){
+        GoodsBaseInfo info = new GoodsBaseInfo();
+        info.setGoods_name("小熊发斯蒂芬");
+        info.setGoods_base_id(GoodsIdUtil.generateBaseId("小熊发斯蒂芬"));
+        info.setGoods_type("饼干");
+        infoMapper.updateGoodsBaseInfo("7312-20210604",info);
+    }
 
     @Test
     void insertGoods(){

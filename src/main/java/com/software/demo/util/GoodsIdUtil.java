@@ -28,7 +28,7 @@ public class GoodsIdUtil {
      * @param goodsName 商品名称
      * @return 商品的base_id
      */
-    private static String generateBaseId(String goodsName) {
+    public static String generateBaseId(String goodsName) {
         // 这里hash码取前4位, 所以使用除法
         // 取后四位的话(也就是取余操作), 可能出现前几位为0的情况, 使计算后的结果不足4位
         return goodsName.hashCode() / 100000 + "";
