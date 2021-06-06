@@ -6,11 +6,11 @@ package com.software.demo.entity;
  * @param <T> 数据体类型
  */
 public class ApiResult<T> {
-    private final int code;
-    private String message;
-    private final T data;
+    protected int code;
+    protected String message;
+    protected T data;
 
-    private ApiResult(int code, String message, T data) {
+    protected ApiResult(int code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;

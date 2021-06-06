@@ -1,19 +1,13 @@
 package com.software.demo.entity.po;
 
-import com.software.demo.util.GoodsIdUtil;
-import com.software.demo.util.TimeFormatUtil;
-
-import java.time.LocalDateTime;
-
 public class Imports {
     private String import_id;
     private String goods_base_id;
     private String import_date;
-    private int import_goods_sum;
+    private Integer import_goods_sum;
+    private Integer stock;
 
     public Imports(){
-        this.import_date = LocalDateTime.now().format(TimeFormatUtil.FORMATTER);
-        this.import_id = GoodsIdUtil.generateImportId();
     }
 
     public String getImport_id() {
@@ -40,12 +34,20 @@ public class Imports {
         this.import_date = import_date;
     }
 
-    public int getImport_goods_sum() {
+    public Integer getImport_goods_sum() {
         return import_goods_sum;
     }
 
-    public void setImport_goods_sum(int import_goods_sum) {
+    public void setImport_goods_sum(Integer import_goods_sum) {
         this.import_goods_sum = import_goods_sum;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     @Override
@@ -55,6 +57,7 @@ public class Imports {
                 ", goods_base_id='" + goods_base_id + '\'' +
                 ", import_date='" + import_date + '\'' +
                 ", import_goods_sum=" + import_goods_sum +
+                ", stock=" + stock +
                 '}';
     }
 }

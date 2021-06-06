@@ -1,19 +1,10 @@
-package com.software.demo.entity.po;
-
-import com.software.demo.annotation.ParamMapping;
-import com.software.demo.entity.vo.GoodsVO;
-
-import java.math.BigDecimal;
+package com.software.demo.entity.vo;
 
 /**
  * @author tinyplan
- * 2021/5/27
- * 2021/5/30:
- *      - 成员变量type类型更改为String
- *      - 去除成员变量stock，使类结构与数据库表结构相同
- *      - 添加新的构造方法, 以适配结果集映射
+ * 2021/6/5
  */
-public class Goods {
+public class GoodsVO {
     private String id;
     private String name;
     private String type;
@@ -24,22 +15,9 @@ public class Goods {
     private Integer duration;
     // 过期时间
     private String expirationDate;
+    private Integer stock;
 
-    public Goods(){}
-
-    public Goods(String id, String name, String type, Float cost, Float price, String productionDate, Integer duration, String expirationDate) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.cost = cost;
-        this.price = price;
-        this.productionDate = productionDate;
-        this.duration = duration;
-        this.expirationDate = expirationDate;
-    }
-
-    public Goods(String id, String name, String type, BigDecimal cost, BigDecimal price, String productionDate, Integer duration, String expirationDate) {
-        this(id, name, type, cost.floatValue(), price.floatValue(), productionDate, duration, expirationDate);
+    public GoodsVO() {
     }
 
     public String getId() {
@@ -106,9 +84,17 @@ public class Goods {
         this.expirationDate = expirationDate;
     }
 
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
-        return "Goods{" +
+        return "GoodsVO{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
@@ -117,6 +103,7 @@ public class Goods {
                 ", productionDate='" + productionDate + '\'' +
                 ", duration=" + duration +
                 ", expirationDate='" + expirationDate + '\'' +
+                ", stock=" + stock +
                 '}';
     }
 }

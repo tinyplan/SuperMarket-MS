@@ -12,8 +12,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ImportMapper {
-    @Insert(" insert into import (import_id, goods_base_id, import_date, import_goods_sum )" +
-            " values( #{import_id}, #{goods_base_id}, #{import_date}, #{import_goods_sum} )")
+    @Insert(" insert into import (import_id, goods_base_id, import_date, import_goods_sum, stock)" +
+            " values( #{import_id}, #{goods_base_id}, #{import_date}, #{import_goods_sum}, #{stock})")
     int insertImport(Imports imports);
 
     @Select(" select * from import where import_goods_sum > 0")
@@ -21,6 +21,6 @@ public interface ImportMapper {
 
     @Update(" update import set import_goods_sum = #{import_goods_sum} " +
             " where import_id = #{import_id} and goods_base_id = #{goods_base_id}")
-    boolean updateImport(String import_id,String goods_base_id,int import_goods_sum);
+    boolean updateImport(String import_id,String goods_base_id,Integer import_goods_sum);
 
 }

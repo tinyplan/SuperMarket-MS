@@ -1,4 +1,4 @@
-package com.software.demo.entity.form;
+package com.software.demo.entity.dto;
 
 /**
  * @author tinyplan
@@ -6,11 +6,11 @@ package com.software.demo.entity.form;
  * <p>
  * 登录表单
  */
-public class LoginForm {
+public class LoginDTO {
     private String username;
     private String password;
 
-    public LoginForm() {
+    public LoginDTO() {
     }
 
     public String getUsername() {

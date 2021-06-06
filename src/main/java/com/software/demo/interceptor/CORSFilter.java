@@ -38,7 +38,9 @@ public class CORSFilter implements Filter {
                 LOGGER.info("拦截请求: " + httpServletRequest.getServletPath()
                         + ", " + httpServletRequest.getMethod());
             }
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            // 参考: https://github.com/wengjq/Blog/issues/2
+            // httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://supermarket.cn");
             httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
             httpServletResponse.setHeader("Access-Control-Max-Age", "0");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
@@ -48,7 +50,7 @@ public class CORSFilter implements Filter {
                             "Origin", "No-Cache", "X-Requested-With",
                             "If-Modified-Since", "Pragma", "Last-Modified",
                             "Cache-Control", "Expires", "Content-Type",
-                            "X-E4M-With", "x-token", "Authorization"})
+                            "X-E4M-With", "x-token", "Authorization", "Set-Cookie"})
             );
         }
         chain.doFilter(request, response);

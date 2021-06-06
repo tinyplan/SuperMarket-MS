@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 30/05/2021 14:47:55
+ Date: 06/06/2021 21:56:16
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `goods_base_info`  (
   `goods_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `goods_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for goods_info
@@ -44,7 +44,13 @@ CREATE TABLE `goods_info`  (
   `duration` int(255) NOT NULL COMMENT '保质期',
   `expiration_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '过期时间(精确到天)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of goods_info
+-- ----------------------------
+INSERT INTO `goods_info` VALUES (1, '123', 'asd', '456', 40.00, 5.00, '2021-05-05', 2, '2021-05-07');
+INSERT INTO `goods_info` VALUES (2, '7312-20210603', '小熊饼干', '饼干', 11.00, 20.50, '2015-03-03', 30, '2015-04-02');
 
 -- ----------------------------
 -- Table structure for import
@@ -52,12 +58,20 @@ CREATE TABLE `goods_info`  (
 DROP TABLE IF EXISTS `import`;
 CREATE TABLE `import`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `import_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `import_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '进货编号',
   `goods_base_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品基础编号',
-  `import_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '进货日期',
+  `goods_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品编号',
   `import_goods_sum` int(255) NOT NULL COMMENT '进货数量',
+  `stock` int(255) NOT NULL COMMENT '库存',
+  `import_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '进货日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of import
+-- ----------------------------
+INSERT INTO `import` VALUES (1, '200', '7312', '7312-20210605', 80, 20, '2020-03-30');
+INSERT INTO `import` VALUES (2, '200', '7312', '123', 100, 30, '2000-3-2');
 
 -- ----------------------------
 -- Table structure for order

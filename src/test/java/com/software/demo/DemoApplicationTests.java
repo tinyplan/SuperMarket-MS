@@ -34,7 +34,7 @@ class DemoApplicationTests {
     @Test
     void selectAllGoods(){
         List<Goods> goods = new ArrayList<>();
-        goods = goodsMapper.selectAllGoods();
+        goods = goodsMapper.queryAllGoods();
         System.out.println(goods.toString());
     }
 
@@ -42,7 +42,7 @@ class DemoApplicationTests {
     void updateGoods(){
         Goods goods = new Goods(GoodsIdUtil.generateGoodsId("小熊饼干"),"小熊饼干","饼干",
                 10f,105f,"2015-3-3",40,"2016-6-7");
-        goodsMapper.updateGood(goods);
+        goodsMapper.updateGoods(goods);
     }
 
     @Test
