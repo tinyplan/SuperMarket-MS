@@ -11,11 +11,12 @@ import java.lang.reflect.Field;
 /**
  * @author tinyplan
  * 2021/6/5
- *
+ * <p>
  * 对象转换具体实现
  */
 public class ObjectTransformUtil {
     public static final Logger LOGGER = LoggerFactory.getLogger(ObjectTransformUtil.class);
+    private static final String FORMAT_PREPARE_STATEMENT = "#{%s}, ";
 
     /**
      * 类转换
@@ -65,7 +66,7 @@ public class ObjectTransformUtil {
      * 寻找指定的目标字段名
      * 注解中配置的信息优先
      *
-     * @param field 源对象字段
+     * @param field     源对象字段
      * @param targetClz 指定的目标类
      * @return 若配置了目标字段, 返回配置的字段名称; 若没有, 返回源字段的名称
      */
@@ -73,8 +74,15 @@ public class ObjectTransformUtil {
         ParamMapping[] annotations = field.getAnnotationsByType(ParamMapping.class);
         for (ParamMapping annotation : annotations) {
             if (annotation.targetClz() == targetClz) {
-                if ("".equals(annotation.targetField())) {
-                    return field.getName();
+                if (!annotation.ignore()) {
+                    // 若没有指定目标字段, 则返回当前字段名
+                    if ("".equals(annotation.targetField())) {
+                        return field.getName();
+                    }
+                } else {
+                    // 忽略该字段
+                    LOGGER.info("忽略字段: " + field.getName());
+                    return null;
                 }
                 return annotation.targetField();
             }
@@ -85,11 +93,31 @@ public class ObjectTransformUtil {
     public static Field findAssignTargetField(Field field, Class<?> targetClz) {
         Field targetField = null;
         try {
-            targetField = targetClz.getDeclaredField(findAssignTargetFieldName(field, targetClz));
+            String targetFieldName = findAssignTargetFieldName(field, targetClz);
+            if (targetFieldName == null) {
+                return null;
+            }
+            targetField = targetClz.getDeclaredField(targetFieldName);
         } catch (NoSuchFieldException e) {
-            LOGGER.warn("未在["+ targetClz.getName() +"]找到字段: " + field.getName());
+            LOGGER.warn("未在[" + targetClz.getName() + "]找到字段: " + field.getName());
         }
         return targetField;
+    }
+
+    /**
+     * 写mybatis时专用, 业务里面一般不会用到, 除非自己去拼接sql
+     * 自动根据类生成类似:
+     * (#{id}, #{name}, #{type}, #{cost})的语句
+     *
+     * @param targetClz 目标类
+     * @return
+     */
+    public static String getFieldForPreparedStatement(Class<?> targetClz) {
+        StringBuilder sb = new StringBuilder();
+        for (Field field : targetClz.getDeclaredFields()) {
+            sb.append(String.format(FORMAT_PREPARE_STATEMENT, field.getName()));
+        }
+        return "(" + sb.substring(0, sb.length() - 2) + ")";
     }
 
 }

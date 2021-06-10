@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.demo.dao.ImportMapper">
+
+    <resultMap id="importMapping" type="Import">
+        <id column="import_id" jdbcType="VARCHAR" property="importId"/>
+        <result column="goods_base_id" jdbcType="VARCHAR" property="goodsBaseId"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="import_goods_sum" jdbcType="INTEGER" property="importGoodsSum"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="import_date" jdbcType="VARCHAR" property="importDate"/>
+    </resultMap>
+
+    <select id="maxId" resultType="Integer">
+        SELECT MAX(id)
+        FROM import
+    </select>
+
+    <insert id="insertImport" parameterType="Import">
+        INSERT INTO import (import_id, goods_base_id, goods_id, import_goods_sum, import_date)
+        VALUES (#{importId}, #{goodsBaseId}, #{goodsId}, #{importGoodsSum}, #{importDate})
+    </insert>
+
+    <!--<update id="updateImport" parameterType="Import">
+        UPDATE import
+        SET stock = #{stock}
+        WHERE goods_id = #{goodsId}
+    </update>-->
+
+    <select id="queryAllImports" resultType="Import">
+        SELECT import_id, goods_base_id, goods_id, import_goods_sum, import_date
+        FROM import
+    </select>
+
+</mapper>

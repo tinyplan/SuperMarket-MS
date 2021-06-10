@@ -3,8 +3,6 @@ package com.software.demo.entity.po;
 import com.software.demo.annotation.ParamMapping;
 import com.software.demo.entity.vo.GoodsVO;
 
-import java.math.BigDecimal;
-
 /**
  * @author tinyplan
  * 2021/5/27
@@ -14,11 +12,17 @@ import java.math.BigDecimal;
  *      - 添加新的构造方法, 以适配结果集映射
  */
 public class Goods {
+    @ParamMapping(targetClz = GoodsVO.class, targetField = "goodsId")
     private String id;
+    @ParamMapping(targetClz = GoodsVO.class, targetField = "goodsName")
     private String name;
+    @ParamMapping(targetClz = GoodsVO.class, targetField = "goodsType")
     private String type;
+    @ParamMapping(targetClz = GoodsVO.class, targetField = "goodsCost")
     private Float cost;
+    @ParamMapping(targetClz = GoodsVO.class, targetField = "goodsPrice")
     private Float price;
+    private Integer stock;
     private String productionDate;
     // 保质期(天)
     private Integer duration;
@@ -27,19 +31,16 @@ public class Goods {
 
     public Goods(){}
 
-    public Goods(String id, String name, String type, Float cost, Float price, String productionDate, Integer duration, String expirationDate) {
+    public Goods(String id, String name, String type, Float cost, Float price, Integer stock, String productionDate, Integer duration, String expirationDate) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.cost = cost;
         this.price = price;
+        this.stock = stock;
         this.productionDate = productionDate;
         this.duration = duration;
         this.expirationDate = expirationDate;
-    }
-
-    public Goods(String id, String name, String type, BigDecimal cost, BigDecimal price, String productionDate, Integer duration, String expirationDate) {
-        this(id, name, type, cost.floatValue(), price.floatValue(), productionDate, duration, expirationDate);
     }
 
     public String getId() {
@@ -80,6 +81,14 @@ public class Goods {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getProductionDate() {

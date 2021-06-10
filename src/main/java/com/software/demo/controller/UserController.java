@@ -5,7 +5,7 @@ import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.dto.LoginDTO;
 import com.software.demo.util.CookieUtil;
-import com.software.demo.util.TimeFormatUtil;
+import com.software.demo.util.TimeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +34,7 @@ public class UserController {
         if ("admin".equals(username) && "123456+".equals(password)) {
             HttpSession session = request.getSession();
             if (session.getAttribute(TokenConstant.TOKEN_KEY) == null) {
-                String token = username + LocalDateTime.now().format(TimeFormatUtil.FORMATTER);
+                String token = username + LocalDateTime.now().format(TimeUtil.FORMATTER_DATE);
                 // 设置session
                 session.setAttribute(TokenConstant.TOKEN_KEY, token);
                 session.setAttribute(token, username);

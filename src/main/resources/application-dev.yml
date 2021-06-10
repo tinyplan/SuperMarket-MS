@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/supermarket_ms?useUnicode=true&characterEncoding=UTF-8&&useSSL=false
+    url: jdbc:mysql://localhost:3306/supermarket_ms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 123456
     # 连接池具体配置
@@ -11,6 +11,8 @@ spring:
       maximum-pool-size: 15
 
 mybatis:
+  configuration:
+    local-cache-scope: statement
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.software.demo.entity.po
 logging:

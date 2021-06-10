@@ -1,9 +1,7 @@
 package com.software.demo.dao;
 
-import com.software.demo.entity.domain.GoodsDO;
 import com.software.demo.entity.po.Goods;
-import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,11 +11,11 @@ public interface GoodsMapper {
 
     Integer insertGoods(Goods goods);
 
-    Integer deleteGoods(String id);
+    Integer deleteGoods(@Param("id") String id);
 
     Integer updateGoods(Goods goods);
 
-    List<Goods> queryAllGoods();
+    Goods queryGoodsById(@Param("id") String id);
 
     /**
      * 分页查询
@@ -25,5 +23,8 @@ public interface GoodsMapper {
      * @param start 起始索引
      * @param limit 每页最大数量
      */
-    List<GoodsDO> queryGoods(@Param("start") int start, @Param("limit") int limit);
+    List<Goods> queryGoods(@Param("start") int start, @Param("limit") int limit);
+
+    List<Goods> queryAllGoods();
+
 }

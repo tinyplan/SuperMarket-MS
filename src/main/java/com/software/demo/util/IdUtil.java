@@ -1,25 +1,21 @@
 package com.software.demo.util;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 /**
  * 商品ID工具类
  * <p>
- * 2021-5-30: goods_id 为 4位base_id + "-" + 8位import_id
+ * 2021-5-30: goods_id 为 4位base_id + "-" + import_id
  */
-public class GoodsIdUtil {
+public class IdUtil {
 
     public static final String GOODS_ID_SEPARATOR = "-";
 
     /**
-     * 生成10位importId，用来与货品baseId一起拼接成goodsId
+     * 生成8位importId
      *
      * @return 商品的import_id
      */
-    public static String generateImportId() {
-        return new SimpleDateFormat("yyyyMMdd").format(new Date());
+    public static String generateImportId(Integer maxId) {
+        return TimeUtil.nowDate("yyyyMMdd") + GOODS_ID_SEPARATOR + checkId(maxId);
     }
 
     /**
@@ -35,15 +31,16 @@ public class GoodsIdUtil {
     }
 
     /**
-     * 生成商品goods_id, 仅在商品第一次进货时使用
+     * 生成商品goods_id
      *
-     * @param goodsName 商品名称
      * @return 商品的goods_id
      */
-    public static String generateGoodsId(String goodsName) {
-        return GoodsIdUtil.generateBaseId(goodsName)
-                + GOODS_ID_SEPARATOR
-                + GoodsIdUtil.generateImportId();
+    public static String generateGoodsId(String importId, String goodsBaseId) {
+        return goodsBaseId + GOODS_ID_SEPARATOR + importId;
+    }
+
+    public static String generateRecordId(Integer maxId) {
+        return TimeUtil.nowDate("yyyyMMdd") + GOODS_ID_SEPARATOR + checkId(maxId);
     }
 
     /**
@@ -66,11 +63,8 @@ public class GoodsIdUtil {
         return goodsId.substring(5);
     }
 
-    public static void main(String[] args) {
-        String abc = "乐事薯条";
-        String goodId = GoodsIdUtil.generateGoodsId(abc);
-        System.out.println(goodId);
-        System.out.println(GoodsIdUtil.getBaseIdFromGoodsId(goodId));
-        System.out.println(GoodsIdUtil.getImportIdFromGoodsId(goodId));
+    public static Integer checkId(Integer curMaxId) {
+        return curMaxId == null ? 0 : curMaxId + 1;
     }
+
 }

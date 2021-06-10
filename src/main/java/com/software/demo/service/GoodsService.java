@@ -1,6 +1,9 @@
 package com.software.demo.service;
 
-import com.software.demo.entity.po.Goods;
+import com.software.demo.entity.dto.GoodsBaseInfoDTO;
+import com.software.demo.entity.dto.ImportGoodsDTO;
+import com.software.demo.entity.dto.ModifyGoodsDTO;
+import com.software.demo.entity.dto.SellGoodsDTO;
 import com.software.demo.entity.vo.GoodsVO;
 
 import java.util.List;
@@ -11,10 +14,14 @@ import java.util.List;
  */
 public interface GoodsService {
 
-    boolean modifyGoodsInfo(Goods goods);
+    boolean addGoodsBaseInfo(GoodsBaseInfoDTO dto);
 
-    List<GoodsVO> queryGoods(Integer page, Integer limit);
+    boolean modifyGoodsInfo(ModifyGoodsDTO dto);
 
-    List<Goods> queryAllGoods();
+    boolean importGoods(ImportGoodsDTO dto);
+
+    boolean sellGoods(SellGoodsDTO dto);
+
+    List<GoodsVO> queryGoods(Integer limit);
 
 }

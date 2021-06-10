@@ -3,77 +3,64 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.software.demo.dao.GoodsMapper">
 
+    <sql id="goodsColumn">
+        goods_id, goods_name, goods_type, goods_cost, goods_price, production_date, duration, expiration_date, stock
+    </sql>
+
     <resultMap id="goodsMapping" type="Goods">
         <id column="goods_id" jdbcType="VARCHAR" property="id"/>
         <result column="goods_name" jdbcType="VARCHAR" property="name"/>
         <result column="goods_type" jdbcType="VARCHAR" property="type"/>
-        <result column="goods_cost" jdbcType="DECIMAL" property="cost"/>
-        <result column="goods_price" jdbcType="DECIMAL" property="price"/>
-        <result column="production_date" jdbcType="VARCHAR" property="productionDate"/>
-        <result column="duration" jdbcType="INTEGER" property="duration"/>
-        <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate"/>
-    </resultMap>
-
-    <resultMap id="goodsDOMapping" type="com.software.demo.entity.domain.GoodsDO">
-        <id column="goods_id" jdbcType="VARCHAR" property="id"/>
-        <result column="goods_name" jdbcType="VARCHAR" property="name"/>
-        <result column="goods_type" jdbcType="VARCHAR" property="type"/>
-        <result column="goods_cost" jdbcType="DECIMAL" property="cost"/>
-        <result column="goods_price" jdbcType="DECIMAL" property="price"/>
-        <result column="production_date" jdbcType="VARCHAR" property="productionDate"/>
-        <result column="duration" jdbcType="INTEGER" property="duration"/>
-        <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate"/>
+        <result column="goods_cost" jdbcType="DECIMAL" property="cost"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
+        <result column="goods_price" jdbcType="DECIMAL" property="price"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
         <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="production_date" jdbcType="VARCHAR" property="productionDate"/>
+        <result column="duration" jdbcType="INTEGER" property="duration"/>
+        <result column="expiration_date" jdbcType="VARCHAR" property="expirationDate"/>
     </resultMap>
 
     <insert id="insertGoods" parameterType="Goods">
-        INSERT INTO goods_info (goods_id, goods_name, goods_type, goods_cost, goods_price, production_date, duration,
-                                expiration_date)
-        VALUES (#{id}, #{name}, #{type}, #{cost}, #{price}, #{productionDate}, #{duration}, #{expirationDate})
+        INSERT INTO `goods_info`
+        (goods_id, goods_name, goods_type, goods_cost, goods_price, stock, production_date, duration, expiration_date)
+        VALUES (#{id}, #{name}, #{type}, #{cost}, #{price}, #{stock}, #{productionDate}, #{duration}, #{expirationDate})
     </insert>
 
     <delete id="deleteGoods" parameterType="String">
-        delete
-        from goods_info
-        where goods_id = #{id}
+        DELETE
+        FROM `goods_info`
+        WHERE goods_id = #{id}
     </delete>
 
     <update id="updateGoods" parameterType="Goods">
-        UPDATE goods_info
-        SET goods_cost      = #{cost},
-            goods_price     = #{price},
-            production_date = #{productionDate},
-            duration        = #{duration},
-            expiration_date = #{expirationDate}
+        UPDATE `goods_info`
+        <set>
+            <if test="price != null and price >= 0.0f">
+                goods_price = #{price},
+            </if>
+            <if test="stock != null and stock >= 0">
+                stock = #{stock},
+            </if>
+        </set>
         WHERE goods_id = #{id}
     </update>
 
+    <select id="queryGoodsById" resultMap="goodsMapping">
+        SELECT <include refid="goodsColumn"/>
+        FROM `goods_info`
+        WHERE goods_id = #{id}
+    </select>
+
     <select id="queryAllGoods" resultMap="goodsMapping">
-        select goods_id,
-               goods_name,
-               goods_type,
-               goods_cost,
-               goods_price,
-               production_date,
-               duration,
-               expiration_date
-        from goods_info
+        SELECT <include refid="goodsColumn"/>
+        FROM `goods_info`
     </select>
 
-    <select id="queryGoods" resultMap="goodsDOMapping">
-        select gi.goods_id as goods_id,
-               goods_name,
-               goods_type,
-               goods_cost,
-               goods_price,
-               production_date,
-               duration,
-               expiration_date,
-               stock
-        from goods_info as gi
-        left join import as i on gi.goods_id = i.goods_id
-        limit #{start}, #{limit}
+    <select id="queryGoods" resultMap="goodsMapping">
+        SELECT <include refid="goodsColumn"/>
+        FROM `goods_info`
+        LIMIT #{start}, #{limit}
     </select>
-
 
 </mapper>

@@ -1,75 +1,45 @@
 package com.software.demo.entity.dto;
 
+import com.software.demo.annotation.ParamMapping;
+import com.software.demo.entity.po.Goods;
+
 /**
  * @author tinyplan
  * 2021/6/3
+ *
+ * 修改商品信息表单
  */
 public class ModifyGoodsDTO {
-    private String id;
-    private String name;
-    private String type;
-    private Float cost;
-    private Float price;
-    private String productionDate;
-    // 保质期(天)
-    private Integer duration;
+    @ParamMapping(targetClz = Goods.class, targetField = "id")
+    private String goodsId;
+    @ParamMapping(targetClz = Goods.class, targetField = "price")
+    private Float goodsPrice;
+    private Integer stock;
 
     public ModifyGoodsDTO() {
     }
 
-    public String getId() {
-        return id;
+    public String getGoodsId() {
+        return goodsId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 
-    public String getName() {
-        return name;
+    public Float getGoodsPrice() {
+        return goodsPrice;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodsPrice(Float goodsPrice) {
+        this.goodsPrice = goodsPrice;
     }
 
-    public String getType() {
-        return type;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Float getCost() {
-        return cost;
-    }
-
-    public void setCost(Float cost) {
-        this.cost = cost;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getProductionDate() {
-        return productionDate;
-    }
-
-    public void setProductionDate(String productionDate) {
-        this.productionDate = productionDate;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

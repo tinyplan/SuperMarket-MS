@@ -20,7 +20,9 @@ public @interface ParamMapping {
     Class<?> targetClz();
 
     // 目标字段
-    String targetField();
+    String targetField() default "";
 
+    // 是否忽略
+    boolean ignore() default false;
 
 }

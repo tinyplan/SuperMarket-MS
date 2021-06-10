@@ -5,11 +5,11 @@ package com.software.demo.entity.vo;
  * 2021/6/5
  */
 public class GoodsVO {
-    private String id;
-    private String name;
-    private String type;
-    private Float cost;
-    private Float price;
+    private String goodsId;
+    private String goodsName;
+    private String goodsType;
+    private Float goodsCost;
+    private Float goodsPrice;
     private String productionDate;
     // 保质期(天)
     private Integer duration;
@@ -20,44 +20,44 @@ public class GoodsVO {
     public GoodsVO() {
     }
 
-    public String getId() {
-        return id;
+    public String getGoodsId() {
+        return goodsId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 
-    public String getName() {
-        return name;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
-    public String getType() {
-        return type;
+    public String getGoodsType() {
+        return goodsType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setGoodsType(String goodsType) {
+        this.goodsType = goodsType;
     }
 
-    public Float getCost() {
-        return cost;
+    public Float getGoodsCost() {
+        return goodsCost;
     }
 
-    public void setCost(Float cost) {
-        this.cost = cost;
+    public void setGoodsCost(Float goodsCost) {
+        this.goodsCost = goodsCost;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getGoodsPrice() {
+        return goodsPrice;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setGoodsPrice(Float goodsPrice) {
+        this.goodsPrice = goodsPrice;
     }
 
     public String getProductionDate() {
@@ -92,18 +92,4 @@ public class GoodsVO {
         this.stock = stock;
     }
 
-    @Override
-    public String toString() {
-        return "GoodsVO{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", cost=" + cost +
-                ", price=" + price +
-                ", productionDate='" + productionDate + '\'' +
-                ", duration=" + duration +
-                ", expirationDate='" + expirationDate + '\'' +
-                ", stock=" + stock +
-                '}';
-    }
 }

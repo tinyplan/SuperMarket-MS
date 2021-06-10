@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.demo.dao.GoodsBaseInfoMapper">
+
+    <resultMap id="goodsBaseInfoMapping" type="GoodsBaseInfo">
+        <id column="goods_base_id" jdbcType="VARCHAR" property="id"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="name"/>
+        <result column="goods_type" jdbcType="VARCHAR" property="type"/>
+    </resultMap>
+
+    <insert id="insertGoodsBaseInfo" parameterType="GoodsBaseInfo">
+        INSERT INTO goods_base_info (goods_base_id, goods_name, goods_type)
+        values (#{id}, #{name}, #{type})
+    </insert>
+
+    <update id="updateGoodsBaseInfo" parameterType="GoodsBaseInfo">
+        UPDATE goods_base_info
+        SET goods_name = #{name},
+            goods_type = #{type}
+        where goods_base_id = #{id}
+    </update>
+
+    <select id="queryGoodsBaseInfo" resultMap="goodsBaseInfoMapping">
+        SELECT goods_base_id, goods_name, goods_type
+        FROM goods_base_info
+        WHERE goods_base_id = #{id}
+    </select>
+
+    <select id="queryAllGoodsBaseInfo" resultMap="goodsBaseInfoMapping">
+        SELECT goods_base_id, goods_name, goods_type
+        FROM goods_base_info
+    </select>
+
+</mapper>

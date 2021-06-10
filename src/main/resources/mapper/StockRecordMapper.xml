@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.demo.dao.StockRecordMapper">
+
+    <sql id="recordColumn">
+        record_id, import_id, goods_id, effect_type, effect_num, effect_time
+    </sql>
+
+    <resultMap id="recordMapping" type="com.software.demo.entity.po.StockRecord">
+        <id column="record_id" jdbcType="VARCHAR" property="recodeId"/>
+        <result column="import_id" jdbcType="VARCHAR" property="importId"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="effect_type" jdbcType="INTEGER" property="effectType"/>
+        <result column="effect_num" jdbcType="INTEGER" property="effectNum"/>
+        <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
+    </resultMap>
+
+    <select id="maxId" resultType="Integer">
+        SELECT MAX(id)
+        FROM `stock_record`
+    </select>
+
+    <insert id="insertRecord">
+        INSERT INTO `stock_record` (<include refid="recordColumn"/>)
+        VALUES (#{recordId}, #{importId}, #{goodsId}, #{effectType}, #{effectNum}, #{effectTime})
+    </insert>
+
+    <select id="querySellRecord" resultMap="recordMapping">
+        SELECT <include refid="recordColumn"/>
+        FROM `stock_record`
+        WHERE import_id == null AND effect_type == -1
+    </select>
+
+</mapper>

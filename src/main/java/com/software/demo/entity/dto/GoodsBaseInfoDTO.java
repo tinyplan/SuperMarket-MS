@@ -1,19 +1,14 @@
-package com.software.demo.entity.po;
+package com.software.demo.entity.dto;
 
-public class GoodsBaseInfo {
-    private String id;
+/**
+ * @author tinyplan
+ * 2021/6/8
+ */
+public class GoodsBaseInfoDTO {
     private String name;
     private String type;
 
-    public GoodsBaseInfo() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public GoodsBaseInfoDTO() {
     }
 
     public String getName() {
