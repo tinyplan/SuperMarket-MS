@@ -40,7 +40,7 @@ public class CORSFilter implements Filter {
             }
             // 参考: https://github.com/wengjq/Blog/issues/2
             // httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-            httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://supermarket.cn");
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
             httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
             httpServletResponse.setHeader("Access-Control-Max-Age", "0");
             httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");

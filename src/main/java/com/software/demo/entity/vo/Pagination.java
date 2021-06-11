@@ -1,5 +1,8 @@
 package com.software.demo.entity.vo;
 
+import com.software.demo.util.PaginationUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,20 +12,26 @@ import java.util.List;
  */
 public class Pagination<T> {
     // 数据总量
-    private Integer count;
+    private Integer total;
     // 数据总列表
-    private List<T> tableData;
+    private List<List<T>> tableData;
 
-    public Pagination(List<T> tableData) {
-        this.count = tableData == null ? 0 : tableData.size();
-        this.tableData = tableData;
+    public Pagination() {
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getTotal() {
+        return total;
     }
 
-    public List<T> getTableData() {
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public List<List<T>> getTableData() {
         return tableData;
+    }
+
+    public void setTableData(List<List<T>> tableData) {
+        this.tableData = tableData;
     }
 }

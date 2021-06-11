@@ -13,7 +13,7 @@ public interface GoodsBaseInfoMapper {
 
     int updateGoodsBaseInfo(GoodsBaseInfo newBaseInfo);
 
-    GoodsBaseInfo queryGoodsBaseInfo(@Param("id") String id);
+    GoodsBaseInfo queryGoodsBaseInfo(GoodsBaseInfo queryBaseInfo);
 
     List<GoodsBaseInfo> queryAllGoodsBaseInfo();
 

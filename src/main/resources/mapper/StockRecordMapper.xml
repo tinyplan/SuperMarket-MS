@@ -4,7 +4,7 @@
 <mapper namespace="com.software.demo.dao.StockRecordMapper">
 
     <sql id="recordColumn">
-        record_id, import_id, goods_id, effect_type, effect_num, effect_time
+        `record_id`, `import_id`, `goods_id`, `effect_type`, `effect_num`, `effect_time`
     </sql>
 
     <resultMap id="recordMapping" type="com.software.demo.entity.po.StockRecord">
@@ -17,19 +17,20 @@
     </resultMap>
 
     <select id="maxId" resultType="Integer">
-        SELECT MAX(id)
+        SELECT MAX(`id`)
         FROM `stock_record`
     </select>
 
     <insert id="insertRecord">
-        INSERT INTO `stock_record` (<include refid="recordColumn"/>)
+        INSERT INTO `stock_record` (`record_id`, `import_id`, `goods_id`, `effect_type`, `effect_num`, `effect_time`)
         VALUES (#{recordId}, #{importId}, #{goodsId}, #{effectType}, #{effectNum}, #{effectTime})
     </insert>
 
     <select id="querySellRecord" resultMap="recordMapping">
-        SELECT <include refid="recordColumn"/>
+        SELECT
+        <include refid="recordColumn"/>
         FROM `stock_record`
-        WHERE import_id == null AND effect_type == -1
+        WHERE `import_id` == null AND `effect_type` == -1
     </select>
 
 </mapper>

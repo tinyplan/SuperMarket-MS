@@ -12,6 +12,7 @@ import com.software.demo.entity.vo.GoodsVO;
 import com.software.demo.entity.vo.Pagination;
 import com.software.demo.service.GoodsService;
 import com.software.demo.util.ObjectTransformUtil;
+import com.software.demo.util.PaginationUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -67,6 +68,9 @@ public class GoodsController {
         return new ApiResult<>(ResultStatus.RES_SUCCESS, null);
     }
 
+    /**
+     * 商品出售
+     */
     @PostMapping("/sell")
     @Authorization
     public ApiResult<Object> sellGoods(@RequestBody SellGoodsDTO dto) {
@@ -91,7 +95,7 @@ public class GoodsController {
     public ApiResult<Pagination<GoodsVO>> queryAllGoods(@RequestParam("pageSize") Integer limit,
                                                         HttpServletRequest request) {
         return new ApiResult<>(ResultStatus.RES_SUCCESS,
-                new Pagination<>(goodsService.queryGoods(limit)));
+                PaginationUtil.getPagination(goodsService.queryGoods(limit), limit));
     }
 
 

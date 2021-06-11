@@ -52,7 +52,7 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsBaseInfo newBaseInfo = ObjectTransformUtil.transform(dto, GoodsBaseInfo.class);
         newBaseInfo.setId(IdUtil.generateBaseId(newBaseInfo.getName()));
         // 检查是否有相同的商品
-        if (goodsBaseInfoMapper.queryGoodsBaseInfo(newBaseInfo.getId()) != null) {
+        if (goodsBaseInfoMapper.queryGoodsBaseInfo(newBaseInfo) != null) {
             throw new BusinessException(ResultStatus.RES_FAIL, "请勿添加重复商品");
         }
         return goodsBaseInfoMapper.insertGoodsBaseInfo(newBaseInfo) == 1;
@@ -72,14 +72,20 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     @Transactional
     public boolean importGoods(ImportGoodsDTO dto) {
-        GoodsBaseInfo baseInfo = goodsBaseInfoMapper.queryGoodsBaseInfo(dto.getGoodsBaseId());
+        // TODO 查找商品基础信息业务修改
+        GoodsBaseInfo queryBaseInfo = new GoodsBaseInfo(null, dto.getGoodsName(), dto.getGoodsType());
+        GoodsBaseInfo baseInfo = goodsBaseInfoMapper.queryGoodsBaseInfo(queryBaseInfo);
         if (baseInfo == null) {
             throw new BusinessException(ResultStatus.RES_FAIL, "没有这种商品");
+        }
+        if (TimeUtil.isBeforeDate(TimeUtil.nowDate(), dto.getProductionDate())) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "生产日期不能晚于当天");
         }
         String importId = IdUtil.generateImportId(importMapper.maxId());
         String goodsId = IdUtil.generateGoodsId(importId, baseInfo.getId());
         // 整理进货信息
         Import newImport = ObjectTransformUtil.transform(dto, Import.class);
+        newImport.setGoodsBaseId(baseInfo.getId());
         newImport.setImportId(importId);
         newImport.setGoodsId(goodsId);
         newImport.setImportDate(TimeUtil.nowDate(TimeUtil.FORMATTER_DATE));

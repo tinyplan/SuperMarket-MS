@@ -7,12 +7,12 @@ import com.software.demo.entity.po.Import;
 /**
  * @author tinyplan
  * 2021/6/3
- *
+ * <p>
  * 进货信息表单
  */
 public class ImportGoodsDTO {
-    @ParamMapping(targetClz = Goods.class, ignore = true)
-    private String goodsBaseId;
+    private String goodsName;
+    private String goodsType;
     @ParamMapping(targetClz = Import.class, ignore = true)
     private Float cost;
     @ParamMapping(targetClz = Import.class, ignore = true)
@@ -27,12 +27,20 @@ public class ImportGoodsDTO {
     public ImportGoodsDTO() {
     }
 
-    public String getGoodsBaseId() {
-        return goodsBaseId;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setGoodsBaseId(String goodsBaseId) {
-        this.goodsBaseId = goodsBaseId;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getGoodsType() {
+        return goodsType;
+    }
+
+    public void setGoodsType(String goodsType) {
+        this.goodsType = goodsType;
     }
 
     public Float getCost() {

@@ -4,7 +4,7 @@
 <mapper namespace="com.software.demo.dao.GoodsMapper">
 
     <sql id="goodsColumn">
-        goods_id, goods_name, goods_type, goods_cost, goods_price, production_date, duration, expiration_date, stock
+        `goods_id`, `goods_name`, `goods_type`, `goods_cost`, `goods_price`, `production_date`, `duration`, `expiration_date`, `stock`
     </sql>
 
     <resultMap id="goodsMapping" type="Goods">
@@ -23,33 +23,33 @@
 
     <insert id="insertGoods" parameterType="Goods">
         INSERT INTO `goods_info`
-        (goods_id, goods_name, goods_type, goods_cost, goods_price, stock, production_date, duration, expiration_date)
+        (`goods_id`, `goods_name`, `goods_type`, `goods_cost`, `goods_price`, `stock`, `production_date`, `duration`, `expiration_date`)
         VALUES (#{id}, #{name}, #{type}, #{cost}, #{price}, #{stock}, #{productionDate}, #{duration}, #{expirationDate})
     </insert>
 
     <delete id="deleteGoods" parameterType="String">
         DELETE
         FROM `goods_info`
-        WHERE goods_id = #{id}
+        WHERE `goods_id` = #{id}
     </delete>
 
     <update id="updateGoods" parameterType="Goods">
         UPDATE `goods_info`
         <set>
             <if test="price != null and price >= 0.0f">
-                goods_price = #{price},
+                `goods_price` = #{price},
             </if>
             <if test="stock != null and stock >= 0">
-                stock = #{stock},
+                `stock` = #{stock},
             </if>
         </set>
-        WHERE goods_id = #{id}
+        WHERE `goods_id` = #{id}
     </update>
 
     <select id="queryGoodsById" resultMap="goodsMapping">
         SELECT <include refid="goodsColumn"/>
         FROM `goods_info`
-        WHERE goods_id = #{id}
+        WHERE `goods_id` = #{id}
     </select>
 
     <select id="queryAllGoods" resultMap="goodsMapping">

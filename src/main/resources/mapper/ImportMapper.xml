@@ -13,12 +13,12 @@
     </resultMap>
 
     <select id="maxId" resultType="Integer">
-        SELECT MAX(id)
-        FROM import
+        SELECT MAX(`id`)
+        FROM `import`
     </select>
 
     <insert id="insertImport" parameterType="Import">
-        INSERT INTO import (import_id, goods_base_id, goods_id, import_goods_sum, import_date)
+        INSERT INTO `import` (`import_id`, `goods_base_id`, `goods_id`, `import_goods_sum`, `import_date`)
         VALUES (#{importId}, #{goodsBaseId}, #{goodsId}, #{importGoodsSum}, #{importDate})
     </insert>
 
@@ -29,8 +29,8 @@
     </update>-->
 
     <select id="queryAllImports" resultType="Import">
-        SELECT import_id, goods_base_id, goods_id, import_goods_sum, import_date
-        FROM import
+        SELECT `import_id`, `goods_base_id`, `goods_id`, `import_goods_sum`, `import_date`
+        FROM `import`
     </select>
 
 </mapper>
