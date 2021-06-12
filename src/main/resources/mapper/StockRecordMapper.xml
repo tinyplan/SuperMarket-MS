@@ -16,6 +16,16 @@
         <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
     </resultMap>
 
+    <resultMap id="recordDOMapping" type="com.software.demo.entity.domain.StockRecordDO">
+        <id column="record_id" jdbcType="VARCHAR" property="recordId"/>
+        <result column="import_id" jdbcType="VARCHAR" property="importId"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="effect_type" jdbcType="INTEGER" property="effectType"/>
+        <result column="effect_num" jdbcType="INTEGER" property="effectNum"/>
+        <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
+    </resultMap>
+
     <select id="maxId" resultType="Integer">
         SELECT MAX(`id`)
         FROM `stock_record`
@@ -31,6 +41,18 @@
         <include refid="recordColumn"/>
         FROM `stock_record`
         WHERE `import_id` == null AND `effect_type` == -1
+    </select>
+
+    <select id="queryAllRecord" resultMap="recordDOMapping">
+        SELECT `record_id`,
+               `import_id`,
+               sr.`goods_id` AS `goods_id`,
+               `goods_name`,
+               `effect_type`,
+               `effect_num`,
+               `effect_time`
+        FROM stock_record AS sr
+                 LEFT JOIN goods_info gi on sr.goods_id = gi.goods_id
     </select>
 
 </mapper>

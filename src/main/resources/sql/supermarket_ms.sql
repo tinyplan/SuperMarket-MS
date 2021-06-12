@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 06/06/2021 21:56:16
+ Date: 12/06/2021 15:54:46
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,12 @@ CREATE TABLE `goods_base_info`  (
   `goods_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `goods_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of goods_base_info
+-- ----------------------------
+INSERT INTO `goods_base_info` VALUES (8, '7312', '小熊饼干', '食品');
 
 -- ----------------------------
 -- Table structure for goods_info
@@ -40,17 +45,20 @@ CREATE TABLE `goods_info`  (
   `goods_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `goods_cost` decimal(10, 2) NOT NULL,
   `goods_price` decimal(10, 2) NOT NULL,
-  `production_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '生产日期(精确到天)',
+  `stock` int(255) NOT NULL,
+  `production_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生产日期(精确到天)',
   `duration` int(255) NOT NULL COMMENT '保质期',
   `expiration_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '过期时间(精确到天)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of goods_info
 -- ----------------------------
-INSERT INTO `goods_info` VALUES (1, '123', 'asd', '456', 40.00, 5.00, '2021-05-05', 2, '2021-05-07');
-INSERT INTO `goods_info` VALUES (2, '7312-20210603', '小熊饼干', '饼干', 11.00, 20.50, '2015-03-03', 30, '2015-04-02');
+INSERT INTO `goods_info` VALUES (8, '7312-20210608-0', '小熊饼干', '食品', 5.00, 100.00, 19, '2021-01-01', 30, '2021-01-31');
+INSERT INTO `goods_info` VALUES (9, '7312-20210610-7', '小熊饼干', '食品', 5.00, 10.00, 100, '2021-01-01', 30, '2021-01-31');
+INSERT INTO `goods_info` VALUES (10, '7312-20210610-8', '小熊饼干', '食品', 5.00, 100.00, 93, '2021-01-01', 365, '2022-01-01');
+INSERT INTO `goods_info` VALUES (11, '7312-20210611-9', '小熊饼干', '食品', 5.00, 10.00, 100, '2021-01-01', 365, '2022-01-01');
 
 -- ----------------------------
 -- Table structure for import
@@ -62,41 +70,42 @@ CREATE TABLE `import`  (
   `goods_base_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品基础编号',
   `goods_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品编号',
   `import_goods_sum` int(255) NOT NULL COMMENT '进货数量',
-  `stock` int(255) NOT NULL COMMENT '库存',
   `import_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '进货日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of import
 -- ----------------------------
-INSERT INTO `import` VALUES (1, '200', '7312', '7312-20210605', 80, 20, '2020-03-30');
-INSERT INTO `import` VALUES (2, '200', '7312', '123', 100, 30, '2000-3-2');
+INSERT INTO `import` VALUES (6, '20210608-0', '7312', '7312-20210608-0', 100, '2021-06-08');
+INSERT INTO `import` VALUES (7, '20210610-7', '7312', '7312-20210610-7', 100, '2021-06-10');
+INSERT INTO `import` VALUES (8, '20210610-8', '7312', '7312-20210610-8', 100, '2021-06-10');
+INSERT INTO `import` VALUES (9, '20210611-9', '7312', '7312-20210611-9', 100, '2021-06-11');
 
 -- ----------------------------
--- Table structure for order
+-- Table structure for stock_record
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(255) NOT NULL,
-  `total_cost` decimal(10, 2) NOT NULL,
-  `buy_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '购买时间(精确到秒)',
-  `invalid_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '无法退货时间(精确到秒)',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for order_item
--- ----------------------------
-DROP TABLE IF EXISTS `order_item`;
-CREATE TABLE `order_item`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(255) NOT NULL,
+DROP TABLE IF EXISTS `stock_record`;
+CREATE TABLE `stock_record`  (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `record_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `import_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `goods_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `goods_sum` int(255) NOT NULL,
-  `goods_price` decimal(10, 2) NOT NULL,
+  `effect_type` int(1) NOT NULL,
+  `effect_num` int(255) NOT NULL,
+  `effect_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of stock_record
+-- ----------------------------
+INSERT INTO `stock_record` VALUES (1, '20210610-0', '20210610-7', '7312-20210610-7', 1, 100, '2021-06-10 15:43:42');
+INSERT INTO `stock_record` VALUES (2, '20210610-2', '20210610-8', '7312-20210610-8', 1, 100, '2021-06-10 16:18:38');
+INSERT INTO `stock_record` VALUES (3, '20210610-3', NULL, '7312-20210610-8', -1, 2, '2021-06-10 16:20:31');
+INSERT INTO `stock_record` VALUES (4, '20210611-4', NULL, '7312-20210610-8', -1, 3, '2021-06-11 21:35:37');
+INSERT INTO `stock_record` VALUES (5, '20210611-5', NULL, '7312-20210610-8', -1, 1, '2021-06-11 21:35:44');
+INSERT INTO `stock_record` VALUES (6, '20210611-6', NULL, '7312-20210610-8', -1, 1, '2021-06-11 21:35:59');
+INSERT INTO `stock_record` VALUES (7, '20210611-7', '20210611-9', '7312-20210611-9', 1, 100, '2021-06-11 22:25:45');
 
 SET FOREIGN_KEY_CHECKS = 1;

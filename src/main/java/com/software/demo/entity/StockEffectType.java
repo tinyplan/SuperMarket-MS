@@ -23,4 +23,13 @@ public enum StockEffectType {
     public String getDesc() {
         return desc;
     }
+
+    public static String getDescByKey(Integer key){
+        for (StockEffectType value : values()) {
+            if (value.getKey().equals(key)) {
+                return value.getDesc();
+            }
+        }
+        return "";
+    }
 }

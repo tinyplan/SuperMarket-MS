@@ -14,9 +14,11 @@ public class ImportGoodsDTO {
     private String goodsName;
     private String goodsType;
     @ParamMapping(targetClz = Import.class, ignore = true)
-    private Float cost;
+    @ParamMapping(targetClz = Goods.class, targetField = "cost")
+    private Float goodsCost;
     @ParamMapping(targetClz = Import.class, ignore = true)
-    private Float price;
+    @ParamMapping(targetClz = Goods.class, targetField = "price")
+    private Float goodsPrice;
     @ParamMapping(targetClz = Import.class, ignore = true)
     private String productionDate;
     @ParamMapping(targetClz = Import.class, ignore = true)
@@ -43,20 +45,20 @@ public class ImportGoodsDTO {
         this.goodsType = goodsType;
     }
 
-    public Float getCost() {
-        return cost;
+    public Float getGoodsCost() {
+        return goodsCost;
     }
 
-    public void setCost(Float cost) {
-        this.cost = cost;
+    public void setGoodsCost(Float goodsCost) {
+        this.goodsCost = goodsCost;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getGoodsPrice() {
+        return goodsPrice;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setGoodsPrice(Float goodsPrice) {
+        this.goodsPrice = goodsPrice;
     }
 
     public String getProductionDate() {

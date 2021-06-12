@@ -1,5 +1,6 @@
 package com.software.demo.dao;
 
+import com.software.demo.entity.domain.StockRecordDO;
 import com.software.demo.entity.po.StockRecord;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +22,7 @@ public interface StockRecordMapper {
      * import_id == null && 影响类型为减少(-1)
      */
     List<StockRecord> querySellRecord();
+
+    List<StockRecordDO> queryAllRecord();
 
 }

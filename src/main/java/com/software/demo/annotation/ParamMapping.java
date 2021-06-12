@@ -1,9 +1,6 @@
 package com.software.demo.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * @author tinyplan
@@ -14,6 +11,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
+@Repeatable(ParamMappingValues.class)
 public @interface ParamMapping {
 
     // 目标类
