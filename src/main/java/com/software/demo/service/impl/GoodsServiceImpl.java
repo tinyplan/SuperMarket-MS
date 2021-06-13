@@ -1,11 +1,11 @@
 package com.software.demo.service.impl;
 
-import com.software.demo.dao.GoodsBaseInfoMapper;
-import com.software.demo.dao.GoodsMapper;
-import com.software.demo.dao.ImportMapper;
-import com.software.demo.dao.StockRecordMapper;
+import com.software.demo.dao.*;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.StockEffectType;
+import com.software.demo.entity.domain.TotalCostDO;
+import com.software.demo.entity.domain.TotalNumAndPriceDO;
+import com.software.demo.entity.domain.TotalRefundDO;
 import com.software.demo.entity.dto.GoodsBaseInfoDTO;
 import com.software.demo.entity.dto.ImportGoodsDTO;
 import com.software.demo.entity.dto.ModifyGoodsDTO;
@@ -14,6 +14,7 @@ import com.software.demo.entity.po.Goods;
 import com.software.demo.entity.po.GoodsBaseInfo;
 import com.software.demo.entity.po.Import;
 import com.software.demo.entity.po.StockRecord;
+import com.software.demo.entity.vo.FinanceSummaryVO;
 import com.software.demo.entity.vo.GoodsVO;
 import com.software.demo.exception.BusinessException;
 import com.software.demo.service.GoodsService;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Resource(name = "stockRecordMapper")
     private StockRecordMapper stockRecordMapper;
+
+    @Resource(name = "financeMapper")
+    private FinanceMapper financeMapper;
 
     @Override
     @Transactional
@@ -159,8 +164,61 @@ public class GoodsServiceImpl implements GoodsService {
         // List<GoodsDO> goodsList = goodsMapper.queryGoods((page - 1) * limit, limit);
         List<Goods> goodsDOList = goodsMapper.queryAllGoods();
         List<GoodsVO> goodsVOList = new ArrayList<>(goodsDOList.size());
-        goodsDOList.forEach(goods -> goodsVOList.add(ObjectTransformUtil.transform(goods, GoodsVO.class)));
+        for (Goods goods : goodsDOList) {
+            goodsVOList.add(ObjectTransformUtil.transform(goods, GoodsVO.class));
+        }
         return goodsVOList;
     }
 
+    @Override
+    public List<FinanceSummaryVO> queryFinanceSummary(String type) {
+        // 保证操作开始的时间一致
+        LocalDate now = LocalDate.now();
+        // 总成本
+        String start = now.format(TimeUtil.FORMATTER_DATE);
+        String end = now.plusDays(1).format(TimeUtil.FORMATTER_DATE);
+        if ("month".equals(type)) {
+            start = TimeUtil.firstDateOfMonth(now);
+            end = TimeUtil.firstDateOfNextMonth(now);
+        }
+        List<TotalCostDO> costDOList = financeMapper.queryAllGoodsCost(start, end);
+        // 总销量, 总销售额
+        start = TimeUtil.firstTimeOfDay(now);
+        end = TimeUtil.firstTimeOfNextDay(now);
+        if ("month".equals(type)) {
+            start = TimeUtil.firstTimeOfMonth(now);
+            end = TimeUtil.firstTimeOfNextMonth(now);
+        }
+        List<TotalNumAndPriceDO> numList = financeMapper.queryAllGoodsNumAndPrice(start, end);
+        List<TotalRefundDO> refundDOList = financeMapper.queryAllGoodsRefund(start, end);
+        List<FinanceSummaryVO> result = new ArrayList<>();
+        FinanceSummaryVO temp = null;
+        for (TotalCostDO costDO : costDOList) {
+            temp = new FinanceSummaryVO();
+            temp.setGoodsBaseId(costDO.getGoodsBaseId());
+            temp.setGoodsName(costDO.getGoodsName());
+            temp.setGoodsType(costDO.getGoodsType());
+            temp.setTotalNum(0);
+            temp.setTotalPrice(0.0F);
+            temp.setTotalProfits(0.0F);
+            for (TotalNumAndPriceDO numAndPriceDO : numList) {
+                if (temp.getGoodsBaseId().equals(numAndPriceDO.getGoodsBaseId())) {
+                    temp.setTotalNum(numAndPriceDO.getTotalNum());
+                    temp.setTotalPrice(numAndPriceDO.getTotalPrice());
+                    temp.setTotalProfits(numAndPriceDO.getTotalPrice() - costDO.getTotalCost());
+                    break;
+                }
+            }
+            float refund = 0.0f;
+            for (TotalRefundDO refundDO : refundDOList) {
+                if (temp.getGoodsBaseId().equals(refundDO.getGoodsBaseId())) {
+                    refund = refundDO.getRefundProfits();
+                    break;
+                }
+            }
+            temp.setTotalProfits(temp.getTotalProfits() - refund);
+            result.add(temp);
+        }
+        return result;
+    }
 }

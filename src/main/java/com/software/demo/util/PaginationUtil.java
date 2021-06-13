@@ -39,14 +39,14 @@ public class PaginationUtil {
         return result;
     }
 
-    public static  <T> Pagination<T> getPagination(List<T> dataList, Integer pageSize) {
+    public static <T> Pagination<T> getPagination(List<T> dataList, Integer limit) {
         Pagination<T> pagination = new Pagination<>();
         if (dataList == null) {
             pagination.setTotal(0);
             pagination.setTableData(new ArrayList<>());
         }else {
             pagination.setTotal(dataList.size());
-            pagination.setTableData(PaginationUtil.getLogicPagination(dataList, pageSize));
+            pagination.setTableData(PaginationUtil.getLogicPagination(dataList, limit));
         }
         return pagination;
     }

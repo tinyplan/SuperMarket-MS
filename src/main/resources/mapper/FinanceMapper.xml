@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.demo.dao.FinanceMapper">
+
+    <resultMap id="totalCostMapping" type="com.software.demo.entity.domain.TotalCostDO">
+        <id column="goodsBaseId" jdbcType="VARCHAR" property="goodsBaseId"/>
+        <result column="goodsName" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goodsType" jdbcType="VARCHAR" property="goodsType"/>
+        <result column="totalCost" jdbcType="DECIMAL" property="totalCost"/>
+    </resultMap>
+
+    <resultMap id="totalNumAndPriceMapping" type="com.software.demo.entity.domain.TotalNumAndPriceDO">
+        <id column="goodsBaseId" jdbcType="VARCHAR" property="goodsBaseId"/>
+        <result column="totalNum" jdbcType="INTEGER" property="totalNum"/>
+        <result column="totalPrice" jdbcType="DECIMAL" property="totalPrice"/>
+    </resultMap>
+
+    <resultMap id="totalRefundMapping" type="com.software.demo.entity.domain.TotalRefundDO">
+        <id column="goodsBaseId" jdbcType="VARCHAR" property="goodsBaseId"/>
+        <result column="refundProfits" jdbcType="DECIMAL" property="refundProfits"/>
+    </resultMap>
+
+    <select id="queryAllGoodsCost" resultMap="totalCostMapping">
+        SELECT
+            `gbi`.`goods_base_id` AS `goodsBaseId`,
+            `gbi`.`goods_name` AS `goodsName`,
+            `gbi`.`goods_type` AS `goodsType`,
+            SUM(`gi`.`goods_cost` * `import_goods_sum`) AS `totalCost`
+        FROM `goods_base_info` AS `gbi`
+        LEFT JOIN `goods_info` AS gi on `gbi`.`goods_name` = `gi`.`goods_name`
+        LEFT JOIN `import` AS i on `gbi`.`goods_base_id` = `i`.`goods_base_id`
+        <where>
+            `gi`.`goods_id` = `i`.`goods_id`
+            <if test="start != null and start != ''">
+                AND #{start} &lt;= `i`.`import_date`
+            </if>
+            <if test="end != null and end != ''">
+                AND `i`.`import_date` &lt; #{end}
+            </if>
+        </where>
+        GROUP BY `gbi`.`goods_base_id`, `gbi`.`goods_name`, `gbi`.`goods_type`;
+    </select>
+
+    <select id="queryAllGoodsNumAndPrice" resultMap="totalNumAndPriceMapping">
+        SELECT
+            goods_base_id AS `goodsBaseId`,
+            SUM(effect_num) AS `totalNum`,
+            SUM(price * effect_num) AS `totalPrice`
+        FROM `goods_base_info` AS `gbi`
+        LEFT JOIN `goods_info` AS `gi` ON `gbi`.`goods_name` = `gi`.`goods_name`
+        LEFT JOIN `stock_record` AS `sr` ON `gi`.`goods_id` = `sr`.`goods_id`
+        <where>
+            `gi`.`goods_id` = `sr`.`goods_id` AND `import_id` IS NULL AND `effect_type` = -1
+            <if test="start != null and start != ''">
+                AND #{start} &lt;= `sr`.`effect_time`
+            </if>
+            <if test="end != null and end != ''">
+                AND `sr`.`effect_time` &lt; #{end}
+            </if>
+        </where>
+        GROUP BY `goods_base_id`;
+    </select>
+
+    <select id="queryAllGoodsRefund" resultMap="totalRefundMapping">
+        SELECT
+            `goods_base_id` AS `goodsBaseId`,
+            SUM(`profits` * `effect_num`) AS `refundProfits`
+        FROM `goods_base_info` AS `gbi`
+        LEFT JOIN `goods_info` AS `gi` ON `gbi`.`goods_name` = `gi`.`goods_name`
+        LEFT JOIN `stock_record` AS `sr` ON `gi`.`goods_id` = `sr`.`goods_id`
+        <where>
+            `gi`.`goods_id` = `sr`.`goods_id` AND `import_id` IS NULL AND `effect_type` = 1
+            <if test="start != null and start != ''">
+                AND #{start} &lt;= `sr`.`effect_time`
+            </if>
+            <if test="end != null and end != ''">
+                AND `sr`.`effect_time` &lt; #{end}
+            </if>
+        </where>
+        GROUP BY `goods_base_id`;
+    </select>
+
+</mapper>
