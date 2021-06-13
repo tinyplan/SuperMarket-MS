@@ -3,6 +3,7 @@ package com.software.demo.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 
 /**
@@ -62,6 +63,30 @@ public class TimeUtil {
         LocalDate startDate = LocalDate.parse(start, FORMATTER_DATE);
         LocalDate endDate = LocalDate.parse(end, FORMATTER_DATE);
         return startDate.isBefore(endDate);
+    }
+
+    public static String firstTimeOfDay(LocalDate now) {
+        return now.atStartOfDay().format(TimeUtil.FORMATTER_TIME);
+    }
+
+    public static String firstTimeOfNextDay(LocalDate now) {
+        return now.atStartOfDay().plusDays(1).format(TimeUtil.FORMATTER_TIME);
+    }
+
+    public static String firstDateOfMonth(LocalDate now) {
+        return now.atStartOfDay().with(TemporalAdjusters.firstDayOfMonth()).format(FORMATTER_DATE);
+    }
+
+    public static String firstDateOfNextMonth(LocalDate now) {
+        return now.atStartOfDay().with(TemporalAdjusters.firstDayOfNextMonth()).format(FORMATTER_DATE);
+    }
+
+    public static String firstTimeOfMonth(LocalDate now) {
+        return now.atStartOfDay().with(TemporalAdjusters.firstDayOfMonth()).format(FORMATTER_TIME);
+    }
+
+    public static String firstTimeOfNextMonth(LocalDate now) {
+        return now.atStartOfDay().with(TemporalAdjusters.firstDayOfNextMonth()).format(FORMATTER_TIME);
     }
 
 }
