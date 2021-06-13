@@ -61,6 +61,9 @@ public class GoodsController {
     @PostMapping("/modify")
     @Authorization
     public ApiResult<Object> modifyGoodsInfo(@RequestBody ModifyGoodsDTO dto) {
+        if (!(dto.getGoodsPrice() > 0.0f && dto.getStock() >= 0)) {
+            return new ApiResult<>(ResultStatus.RES_FAIL, "参数异常");
+        }
         boolean success = goodsService.modifyGoodsInfo(dto);
         if (!success) {
             return new ApiResult<>(ResultStatus.RES_FAIL, null);
