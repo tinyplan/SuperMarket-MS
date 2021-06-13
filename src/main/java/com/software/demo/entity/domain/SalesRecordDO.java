@@ -1,26 +1,32 @@
 package com.software.demo.entity.domain;
 
 import com.software.demo.annotation.ParamMapping;
+import com.software.demo.entity.vo.SalesRecordVO;
 import com.software.demo.entity.vo.StockRecordVO;
 
 /**
- * @author tinyplan
- * 2021/6/12
+ * @author yjn
+ * 2021/06/13
  */
-public class StockRecordDO {
+public class SalesRecordDO {
     private String recordId;
+    @ParamMapping(targetClz = SalesRecordVO.class, ignore = true)
     private String importId;
     private String goodsId;
     private String goodsName;
+    private String goodsType;
+    @ParamMapping(targetClz = SalesRecordVO.class, targetField = "goodsPrice")
     private Float price;
+    @ParamMapping(targetClz = SalesRecordVO.class, ignore = true)
     private Float profits;
-    @ParamMapping(targetClz = StockRecordVO.class, ignore = true)
+    @ParamMapping(targetClz = SalesRecordVO.class, ignore = true)
     private Integer effectType;
-    @ParamMapping(targetClz = StockRecordVO.class, ignore = true)
+    @ParamMapping(targetClz = SalesRecordVO.class, targetField = "goodsNum")
     private Integer effectNum;
+    @ParamMapping(targetClz = SalesRecordVO.class, targetField = "time")
     private String effectTime;
 
-    public StockRecordDO() {
+    public SalesRecordDO() {
     }
 
     public String getRecordId() {
@@ -53,6 +59,14 @@ public class StockRecordDO {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public String getGoodsType() {
+        return goodsType;
+    }
+
+    public void setGoodsType(String goodsType) {
+        this.goodsType = goodsType;
     }
 
     public Float getPrice() {

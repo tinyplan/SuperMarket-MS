@@ -1,8 +1,5 @@
 package com.software.demo.entity.vo;
 
-import com.software.demo.util.PaginationUtil;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
