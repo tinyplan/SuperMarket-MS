@@ -12,6 +12,8 @@ public class StockRecordDO {
     private String importId;
     private String goodsId;
     private String goodsName;
+    private Float price;
+    private Float profits;
     @ParamMapping(targetClz = StockRecordVO.class, ignore = true)
     private Integer effectType;
     @ParamMapping(targetClz = StockRecordVO.class, ignore = true)
@@ -61,6 +63,22 @@ public class StockRecordDO {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Float getProfits() {
+        return profits;
+    }
+
+    public void setProfits(Float profits) {
+        this.profits = profits;
     }
 
     public Integer getEffectType() {

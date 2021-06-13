@@ -37,9 +37,6 @@ public class StockRecordServiceImpl implements StockRecordService {
                     temp.setEffectType("退款");
                 }
             }
-            if (temp.getImportId() == null) {
-                temp.setImportId("---");
-            }
             result.add(temp);
         });
         return result;

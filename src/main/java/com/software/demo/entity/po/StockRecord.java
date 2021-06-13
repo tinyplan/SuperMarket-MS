@@ -8,6 +8,8 @@ public class StockRecord {
     private String recordId;
     private String importId;
     private String goodsId;
+    private Float price;
+    private Float profits;
     private Integer effectType;
     private Integer effectNum;
     private String effectTime;
@@ -15,10 +17,12 @@ public class StockRecord {
     public StockRecord() {
     }
 
-    public StockRecord(String recordId, String importId, String goodsId, Integer effectType, Integer effectNum, String effectTime) {
+    public StockRecord(String recordId, String importId, String goodsId, Float price, Float profits, Integer effectType, Integer effectNum, String effectTime) {
         this.recordId = recordId;
         this.importId = importId;
         this.goodsId = goodsId;
+        this.price = price;
+        this.profits = profits;
         this.effectType = effectType;
         this.effectNum = effectNum;
         this.effectTime = effectTime;
@@ -46,6 +50,22 @@ public class StockRecord {
 
     public void setGoodsId(String goodsId) {
         this.goodsId = goodsId;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Float getProfits() {
+        return profits;
+    }
+
+    public void setProfits(Float profits) {
+        this.profits = profits;
     }
 
     public Integer getEffectType() {

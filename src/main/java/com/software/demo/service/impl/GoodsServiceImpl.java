@@ -72,7 +72,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     @Transactional
     public boolean importGoods(ImportGoodsDTO dto) {
-        // TODO 查找商品基础信息业务修改
         GoodsBaseInfo queryBaseInfo = new GoodsBaseInfo(null, dto.getGoodsName(), dto.getGoodsType());
         GoodsBaseInfo baseInfo = goodsBaseInfoMapper.queryGoodsBaseInfo(queryBaseInfo);
         if (baseInfo == null) {
@@ -101,6 +100,9 @@ public class GoodsServiceImpl implements GoodsService {
         record.setRecordId(IdUtil.generateRecordId(stockRecordMapper.maxId()));
         record.setImportId(importId);
         record.setGoodsId(goodsId);
+        // 进货的时候不用添加售价, 利润信息
+        record.setPrice(0.0f);
+        record.setProfits(0.0f);
         record.setEffectType(StockEffectType.ADD.getKey());
         record.setEffectNum(dto.getImportGoodsSum());
         record.setEffectTime(TimeUtil.nowTime());
@@ -136,6 +138,8 @@ public class GoodsServiceImpl implements GoodsService {
         StockRecord record = new StockRecord();
         record.setRecordId(IdUtil.generateRecordId(stockRecordMapper.maxId()));
         record.setGoodsId(dto.getGoodsId());
+        record.setPrice(goods.getPrice());
+        record.setProfits(goods.getPrice() - goods.getCost());
         record.setEffectType(StockEffectType.SUBTRACT.getKey());
         record.setEffectNum(sellNum);
         record.setEffectTime(TimeUtil.nowTime());

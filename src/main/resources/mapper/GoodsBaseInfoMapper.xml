@@ -3,6 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.software.demo.dao.GoodsBaseInfoMapper">
 
+    <sql id="insertColumn">
+        <trim suffixOverrides=",">
+            <if test="id != null">`goods_base_id`,</if>
+            <if test="name != null">`goods_name`,</if>
+            <if test="type != null">`goods_type`,</if>
+        </trim>
+    </sql>
+
+    <sql id="insertValue">
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+        </trim>
+    </sql>
+
     <resultMap id="goodsBaseInfoMapping" type="GoodsBaseInfo">
         <id column="goods_base_id" jdbcType="VARCHAR" property="id"/>
         <result column="goods_name" jdbcType="VARCHAR" property="name"/>
@@ -10,8 +26,8 @@
     </resultMap>
 
     <insert id="insertGoodsBaseInfo" parameterType="GoodsBaseInfo">
-        INSERT INTO `goods_base_info` (`goods_base_id`, `goods_name`, `goods_type`)
-        values (#{id}, #{name}, #{type})
+        INSERT INTO `goods_base_info` (<include refid="insertColumn"/>)
+        values (<include refid="insertValue"/>)
     </insert>
 
     <update id="updateGoodsBaseInfo" parameterType="GoodsBaseInfo">

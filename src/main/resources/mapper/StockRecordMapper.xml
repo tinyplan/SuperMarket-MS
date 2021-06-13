@@ -4,13 +4,17 @@
 <mapper namespace="com.software.demo.dao.StockRecordMapper">
 
     <sql id="recordColumn">
-        `record_id`, `import_id`, `goods_id`, `effect_type`, `effect_num`, `effect_time`
+        `record_id`, `import_id`, `goods_id`, `price`, `profits`, ```effect_type`, `effect_num`, `effect_time`
     </sql>
 
     <resultMap id="recordMapping" type="com.software.demo.entity.po.StockRecord">
         <id column="record_id" jdbcType="VARCHAR" property="recodeId"/>
         <result column="import_id" jdbcType="VARCHAR" property="importId"/>
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="price" jdbcType="DECIMAL" property="price"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
+        <result column="profits" jdbcType="DECIMAL" property="profits"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
         <result column="effect_type" jdbcType="INTEGER" property="effectType"/>
         <result column="effect_num" jdbcType="INTEGER" property="effectNum"/>
         <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
@@ -21,6 +25,10 @@
         <result column="import_id" jdbcType="VARCHAR" property="importId"/>
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
         <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="price" jdbcType="DECIMAL" property="price"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
+        <result column="profits" jdbcType="DECIMAL" property="profits"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
         <result column="effect_type" jdbcType="INTEGER" property="effectType"/>
         <result column="effect_num" jdbcType="INTEGER" property="effectNum"/>
         <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
@@ -32,8 +40,8 @@
     </select>
 
     <insert id="insertRecord">
-        INSERT INTO `stock_record` (`record_id`, `import_id`, `goods_id`, `effect_type`, `effect_num`, `effect_time`)
-        VALUES (#{recordId}, #{importId}, #{goodsId}, #{effectType}, #{effectNum}, #{effectTime})
+        INSERT INTO `stock_record` (`record_id`, `import_id`, `goods_id`, `price`, `profits`, `effect_type`, `effect_num`, `effect_time`)
+        VALUES (#{recordId}, #{importId}, #{goodsId}, #{price}, #{profits}, #{effectType}, #{effectNum}, #{effectTime})
     </insert>
 
     <select id="querySellRecord" resultMap="recordMapping">
@@ -48,6 +56,8 @@
                `import_id`,
                sr.`goods_id` AS `goods_id`,
                `goods_name`,
+               `price`,
+               `profits`,
                `effect_type`,
                `effect_num`,
                `effect_time`

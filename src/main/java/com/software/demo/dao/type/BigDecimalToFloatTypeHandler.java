@@ -29,16 +29,28 @@ public class BigDecimalToFloatTypeHandler extends BaseTypeHandler<Float> {
     // 下面三个方法都是在查询时, 将jdbc类型转换为java类型
     @Override
     public Float getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        return rs.getBigDecimal(columnName).floatValue();
+        BigDecimal decimal = rs.getBigDecimal(columnName);
+        if (decimal == null) {
+            return 0.0f;
+        }
+        return decimal.floatValue();
     }
 
     @Override
     public Float getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        return rs.getBigDecimal(columnIndex).floatValue();
+        BigDecimal decimal = rs.getBigDecimal(columnIndex);
+        if (decimal == null) {
+            return 0.0f;
+        }
+        return decimal.floatValue();
     }
 
     @Override
     public Float getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return cs.getBigDecimal(columnIndex).floatValue();
+        BigDecimal decimal = cs.getBigDecimal(columnIndex);
+        if (decimal == null) {
+            return 0.0f;
+        }
+        return decimal.floatValue();
     }
 }

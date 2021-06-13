@@ -3,6 +3,8 @@ package com.software.demo.entity.vo;
 /**
  * @author tinyplan
  * 2021/6/12
+ *
+ * 库存记录页面专用
  */
 public class StockRecordVO {
     private String recordId;
