@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(ParamMappingValues.class)
+@Repeatable(ParamMapping.List.class)
 public @interface ParamMapping {
 
     // 目标类
@@ -22,5 +22,11 @@ public @interface ParamMapping {
 
     // 是否忽略
     boolean ignore() default false;
+
+    @Target(ElementType.FIELD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface List {
+        ParamMapping[] value() default {};
+    }
 
 }

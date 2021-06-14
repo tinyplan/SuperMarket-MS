@@ -55,8 +55,14 @@ public class TimeUtil {
     }
 
     public static String plusDay(String startDate, Integer during, DateTimeFormatter formatter) {
-        LocalDate start = LocalDate.parse(startDate, formatter);
-        return start.plusDays(during).format(formatter);
+        // 先紧急处理一下
+        if (startDate.length() <= 10) {
+            LocalDate start = LocalDate.parse(startDate, formatter);
+            return start.plusDays(during).format(formatter);
+        } else {
+            LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+            return start.plusDays(during).format(formatter);
+        }
     }
 
     public static boolean isBeforeDate(String start, String end) {

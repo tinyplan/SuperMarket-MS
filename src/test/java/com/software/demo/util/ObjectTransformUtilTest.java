@@ -7,6 +7,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author tinyplan
@@ -44,12 +46,21 @@ class ObjectTransformUtilTest {
 
     @Test
     void test() {
-        LocalDate now = LocalDate.now();
-        System.out.println(TimeUtil.firstTimeOfDay(now));
-        System.out.println(TimeUtil.firstTimeOfNextDay(now));
-        System.out.println(TimeUtil.firstDateOfMonth(now));
-        System.out.println(TimeUtil.firstDateOfNextMonth(now));
-        System.out.println(TimeUtil.firstTimeOfMonth(now));
-        System.out.println(TimeUtil.firstTimeOfNextMonth(now));
+        // LocalDate now = LocalDate.now();
+        // System.out.println(TimeUtil.firstTimeOfDay(now));
+        // System.out.println(TimeUtil.firstTimeOfNextDay(now));
+        // System.out.println(TimeUtil.firstDateOfMonth(now));
+        // System.out.println(TimeUtil.firstDateOfNextMonth(now));
+        // System.out.println(TimeUtil.firstTimeOfMonth(now));
+        // System.out.println(TimeUtil.firstTimeOfNextMonth(now));
+        // System.out.println(TimeUtil.plusDay(TimeUtil.nowDate(), 3, TimeUtil.FORMATTER_DATE));
+        // String pureNumber = "111111111111111123232131";
+        // String pureChar = "/*-+2";
+        // String pattern1 = "^[0-9]*$";
+        // String pattern2 = "^[+\\-*/]*$";
+        // System.out.println(Pattern.matches(pattern1, pureNumber));
+        // System.out.println(Pattern.matches(pattern2, pureChar));
+        String floatStr = "1.11111111111111111111111";
+        System.out.println(Pattern.matches("^\\d+\\.?\\d*\\d$", floatStr));
     }
 }

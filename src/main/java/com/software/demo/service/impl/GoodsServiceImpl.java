@@ -85,6 +85,10 @@ public class GoodsServiceImpl implements GoodsService {
         if (TimeUtil.isBeforeDate(TimeUtil.nowDate(), dto.getProductionDate())) {
             throw new BusinessException(ResultStatus.RES_FAIL, "生产日期不能晚于当天");
         }
+        String expireDate = TimeUtil.plusDay(dto.getProductionDate(), dto.getDuration(), TimeUtil.FORMATTER_DATE);
+        if (TimeUtil.isBeforeDate(expireDate, TimeUtil.nowDate())) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "该商品已过期, 请确认信息填写无误");
+        }
         String importId = IdUtil.generateImportId(importMapper.maxId());
         String goodsId = IdUtil.generateGoodsId(importId, baseInfo.getId());
         // 整理进货信息
@@ -99,7 +103,7 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setName(baseInfo.getName());
         goods.setType(baseInfo.getType());
         goods.setStock(dto.getImportGoodsSum());
-        goods.setExpirationDate(TimeUtil.plusDay(goods.getProductionDate(), goods.getDuration(), TimeUtil.FORMATTER_DATE));
+        goods.setExpirationDate(expireDate);
         // 整理库存修改记录
         StockRecord record = new StockRecord();
         record.setRecordId(IdUtil.generateRecordId(stockRecordMapper.maxId()));

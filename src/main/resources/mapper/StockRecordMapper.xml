@@ -8,7 +8,7 @@
     </sql>
 
     <resultMap id="recordMapping" type="com.software.demo.entity.po.StockRecord">
-        <id column="record_id" jdbcType="VARCHAR" property="recodeId"/>
+        <id column="record_id" jdbcType="VARCHAR" property="recordId"/>
         <result column="import_id" jdbcType="VARCHAR" property="importId"/>
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
         <result column="price" jdbcType="DECIMAL" property="price"
