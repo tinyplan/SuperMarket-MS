@@ -1,6 +1,7 @@
 package com.software.demo.dao;
 
 import com.software.demo.entity.po.Goods;
+import com.software.demo.entity.po.StockRecord;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,8 @@ public interface GoodsMapper {
     Integer updateGoods(Goods goods);
 
     Goods queryGoodsById(@Param("id") String id);
+
+    StockRecord queryRecordByRecordId(@Param("id") String id);
 
     /**
      * 分页查询

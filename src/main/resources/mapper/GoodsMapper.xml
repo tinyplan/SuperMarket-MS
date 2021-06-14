@@ -52,6 +52,12 @@
         WHERE `goods_id` = #{id}
     </select>
 
+    <select id="queryRecordByRecordId" resultMap="com.software.demo.dao.StockRecordMapper.recordMapping">
+        SELECT `record_id`, `import_id`, `goods_id`, `price`, `profits`, `effect_type`, `effect_num`, `effect_time`
+        FROM `stock_record`
+        WHERE `record_id` = #{id}
+    </select>
+
     <select id="queryAllGoods" resultMap="goodsMapping">
         SELECT <include refid="goodsColumn"/>
         FROM `goods_info`
