@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.demo.dao.SalesRecordMapper">
+
+    <resultMap id="recordDOMapping" type="com.software.demo.entity.domain.SalesRecordDO">
+        <id column="record_id" jdbcType="VARCHAR" property="recordId"/>
+        <result column="import_id" jdbcType="VARCHAR" property="importId"/>
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_type" jdbcType="VARCHAR" property="goodsType"/>
+        <result column="price" jdbcType="DECIMAL" property="price"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
+        <result column="profits" jdbcType="DECIMAL" property="profits"
+                typeHandler="com.software.demo.dao.type.BigDecimalToFloatTypeHandler"/>
+        <result column="effect_type" jdbcType="INTEGER" property="effectType"/>
+        <result column="effect_num" jdbcType="INTEGER" property="effectNum"/>
+        <result column="effect_time" jdbcType="VARCHAR" property="effectTime"/>
+    </resultMap>
+
+    <select id="queryAllRecord" resultMap="recordDOMapping">
+        SELECT `record_id`,
+               `import_id`,
+               sr.`goods_id`,
+               `goods_name`,
+               `goods_type`,
+               `price`,
+               `profits`,
+               `effect_type`,
+               `effect_num`,
+               `effect_time`
+        FROM `stock_record` AS sr
+        LEFT JOIN goods_info gi on sr.goods_id = gi.goods_id
+        WHERE import_id IS NULL AND effect_type = -1
+    </select>
+
+</mapper>

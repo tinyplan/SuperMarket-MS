@@ -3,10 +3,7 @@ package com.software.demo.controller;
 import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
-import com.software.demo.entity.dto.GoodsBaseInfoDTO;
-import com.software.demo.entity.dto.ImportGoodsDTO;
-import com.software.demo.entity.dto.ModifyGoodsDTO;
-import com.software.demo.entity.dto.SellGoodsDTO;
+import com.software.demo.entity.dto.*;
 import com.software.demo.entity.po.Goods;
 import com.software.demo.entity.vo.GoodsVO;
 import com.software.demo.entity.vo.Pagination;
@@ -105,10 +102,17 @@ public class GoodsController {
         return new ApiResult<>(ResultStatus.RES_SUCCESS, null);
     }
 
+    /**
+     * 商品退款
+     */
     @PostMapping("/refund")
     @Authorization
-    public ApiResult<Object> refund() {
-        return null;
+    public ApiResult<Object> refund(@RequestBody RefundGoodsDTO dto) {
+        boolean success = goodsService.refundGoods(dto);
+        if (!success) {
+            return new ApiResult<>(ResultStatus.RES_FAIL, null);
+        }
+        return new ApiResult<>(ResultStatus.RES_SUCCESS, null);
     }
 
     /**

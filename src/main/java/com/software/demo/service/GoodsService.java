@@ -1,9 +1,6 @@
 package com.software.demo.service;
 
-import com.software.demo.entity.dto.GoodsBaseInfoDTO;
-import com.software.demo.entity.dto.ImportGoodsDTO;
-import com.software.demo.entity.dto.ModifyGoodsDTO;
-import com.software.demo.entity.dto.SellGoodsDTO;
+import com.software.demo.entity.dto.*;
 import com.software.demo.entity.vo.FinanceSummaryVO;
 import com.software.demo.entity.vo.GoodsVO;
 
@@ -22,6 +19,8 @@ public interface GoodsService {
     boolean importGoods(ImportGoodsDTO dto);
 
     boolean sellGoods(SellGoodsDTO dto);
+
+    boolean refundGoods(RefundGoodsDTO dto);
 
     List<GoodsVO> queryGoods(Integer limit);
 

@@ -50,25 +50,27 @@ public class TimeUtil {
     /**
      * 添加指定天数
      */
-    public static String plusDay(String startDate, Integer during, String pattern) {
-        return plusDay(startDate, during, DateTimeFormatter.ofPattern(pattern, Locale.CHINA));
+
+    public static String plusDayForDate(String startDate, Integer during, DateTimeFormatter formatter) {
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        return start.plusDays(during).format(formatter);
     }
 
-    public static String plusDay(String startDate, Integer during, DateTimeFormatter formatter) {
-        // 先紧急处理一下
-        if (startDate.length() <= 10) {
-            LocalDate start = LocalDate.parse(startDate, formatter);
-            return start.plusDays(during).format(formatter);
-        } else {
-            LocalDateTime start = LocalDateTime.parse(startDate, formatter);
-            return start.plusDays(during).format(formatter);
-        }
+    public static String plusDayForTime(String startTime, Integer during, DateTimeFormatter formatter) {
+        LocalDateTime start = LocalDateTime.parse(startTime, formatter);
+        return start.plusDays(during).format(formatter);
     }
 
     public static boolean isBeforeDate(String start, String end) {
         LocalDate startDate = LocalDate.parse(start, FORMATTER_DATE);
         LocalDate endDate = LocalDate.parse(end, FORMATTER_DATE);
         return startDate.isBefore(endDate);
+    }
+
+    public static boolean isBeforeTime(String start, String end) {
+        LocalDateTime startTime = LocalDateTime.parse(start, FORMATTER_TIME);
+        LocalDateTime endTime = LocalDateTime.parse(end, FORMATTER_TIME);
+        return startTime.isBefore(endTime);
     }
 
     public static String firstTimeOfDay(LocalDate now) {

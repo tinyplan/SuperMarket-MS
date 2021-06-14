@@ -6,10 +6,7 @@ import com.software.demo.entity.StockEffectType;
 import com.software.demo.entity.domain.TotalCostDO;
 import com.software.demo.entity.domain.TotalNumAndPriceDO;
 import com.software.demo.entity.domain.TotalRefundDO;
-import com.software.demo.entity.dto.GoodsBaseInfoDTO;
-import com.software.demo.entity.dto.ImportGoodsDTO;
-import com.software.demo.entity.dto.ModifyGoodsDTO;
-import com.software.demo.entity.dto.SellGoodsDTO;
+import com.software.demo.entity.dto.*;
 import com.software.demo.entity.po.Goods;
 import com.software.demo.entity.po.GoodsBaseInfo;
 import com.software.demo.entity.po.Import;
@@ -26,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +83,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (TimeUtil.isBeforeDate(TimeUtil.nowDate(), dto.getProductionDate())) {
             throw new BusinessException(ResultStatus.RES_FAIL, "生产日期不能晚于当天");
         }
-        String expireDate = TimeUtil.plusDay(dto.getProductionDate(), dto.getDuration(), TimeUtil.FORMATTER_DATE);
+        String expireDate = TimeUtil.plusDayForDate(dto.getProductionDate(), dto.getDuration(), TimeUtil.FORMATTER_DATE);
         if (TimeUtil.isBeforeDate(expireDate, TimeUtil.nowDate())) {
             throw new BusinessException(ResultStatus.RES_FAIL, "该商品已过期, 请确认信息填写无误");
         }
@@ -153,6 +151,42 @@ public class GoodsServiceImpl implements GoodsService {
         record.setEffectNum(sellNum);
         record.setEffectTime(TimeUtil.nowTime());
 
+        return goodsMapper.updateGoods(newGoodsInfo) == 1
+                && stockRecordMapper.insertRecord(record) == 1;
+    }
+
+    @Override
+    @Transactional
+    public boolean refundGoods(RefundGoodsDTO dto) {
+        StockRecord stockRecord = goodsMapper.queryRecordByRecordId(dto.getRecordId());
+        Goods goods = goodsMapper.queryGoodsById(dto.getGoodsId());
+        // 检查商品是否存在
+        if (goods == null) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "没有这种商品");
+        }
+        // 检查商品是否出售过
+        if (stockRecord == null || stockRecord.getEffectType() != -1) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "没有出售过该商品");
+        }
+        // 检查是否超过了退款期限
+        String now = TimeUtil.nowTime();
+        String deadline = TimeUtil.plusDayForTime(stockRecord.getEffectTime(), 3, TimeUtil.FORMATTER_TIME);
+        if (TimeUtil.isBeforeTime(deadline, now)) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "超过了退款期限");
+        }
+        // 加库存
+        Goods newGoodsInfo = new Goods();
+        newGoodsInfo.setId(dto.getGoodsId());
+        newGoodsInfo.setStock(goods.getStock() + dto.getGoodsNum());
+        // 保存库存记录
+        StockRecord record = new StockRecord();
+        record.setRecordId(IdUtil.generateRecordId(stockRecordMapper.maxId()));
+        record.setGoodsId(dto.getGoodsId());
+        record.setPrice(goods.getPrice());
+        record.setProfits(goods.getPrice() - goods.getCost());
+        record.setEffectType(StockEffectType.ADD.getKey());
+        record.setEffectNum(dto.getGoodsNum());
+        record.setEffectTime(TimeUtil.nowTime());
         return goodsMapper.updateGoods(newGoodsInfo) == 1
                 && stockRecordMapper.insertRecord(record) == 1;
     }
