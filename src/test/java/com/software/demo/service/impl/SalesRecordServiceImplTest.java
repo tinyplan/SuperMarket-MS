@@ -1,6 +1,6 @@
 package com.software.demo.service.impl;
 
-import com.software.demo.entity.vo.StockRecordVO;
+import com.software.demo.entity.vo.SalesRecordVO;
 import com.software.demo.service.SalesRecordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,5 +20,9 @@ class SalesRecordServiceImplTest {
 
     @Test
     void queryAllRecord() {
+        List<SalesRecordVO> salesRecordVOList = salesRecordService.queryAllRecord();
+        for (SalesRecordVO salesRecordVO : salesRecordVOList) {
+            System.out.println(salesRecordVO);
+        }
     }
 }

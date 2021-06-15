@@ -23,5 +23,9 @@ class StockRecordServiceImplTest {
 
     @Test
     void queryAllRecord() {
+        List<StockRecordVO> stockRecordVOList = stockRecordService.queryAllRecord();
+        for (StockRecordVO stockRecordVO : stockRecordVOList) {
+            System.out.println(stockRecordVO);
+        }
     }
 }
