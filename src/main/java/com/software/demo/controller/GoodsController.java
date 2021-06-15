@@ -104,7 +104,7 @@ public class GoodsController {
      */
     @PostMapping("/refund")
     @Authorization
-    public ApiResult<Object> refund(@RequestBody RefundGoodsDTO dto) {
+    public ApiResult<Object> refund(@RequestBody @Validated RefundGoodsDTO dto) {
         boolean success = goodsService.refundGoods(dto);
         if (!success) {
             return new ApiResult<>(ResultStatus.RES_FAIL, null);

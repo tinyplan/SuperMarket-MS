@@ -174,6 +174,10 @@ public class GoodsServiceImpl implements GoodsService {
         if (TimeUtil.isBeforeTime(deadline, now)) {
             throw new BusinessException(ResultStatus.RES_FAIL, "超过了退款期限");
         }
+        // 检查是否超过了出售数量
+        if (dto.getGoodsNum() > stockRecord.getEffectNum()) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "退款的数量超过了出售数量");
+        }
         // 加库存
         Goods newGoodsInfo = new Goods();
         newGoodsInfo.setId(dto.getGoodsId());
