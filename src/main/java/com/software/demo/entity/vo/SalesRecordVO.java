@@ -71,4 +71,17 @@ public class SalesRecordVO {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "SalesRecordVO{" +
+                "recordId='" + recordId + '\'' +
+                ", goodsId='" + goodsId + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsType='" + goodsType + '\'' +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsNum=" + goodsNum +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

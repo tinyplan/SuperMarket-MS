@@ -62,4 +62,16 @@ public class FinanceSummaryVO {
     public void setTotalProfits(Float totalProfits) {
         this.totalProfits = totalProfits;
     }
+
+    @Override
+    public String toString() {
+        return "FinanceSummaryVO{" +
+                "goodsBaseId='" + goodsBaseId + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsType='" + goodsType + '\'' +
+                ", totalNum=" + totalNum +
+                ", totalPrice=" + totalPrice +
+                ", totalProfits=" + totalProfits +
+                '}';
+    }
 }

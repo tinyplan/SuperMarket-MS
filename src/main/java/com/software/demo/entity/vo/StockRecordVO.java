@@ -73,4 +73,17 @@ public class StockRecordVO {
     public void setEffectTime(String effectTime) {
         this.effectTime = effectTime;
     }
+
+    @Override
+    public String toString() {
+        return "StockRecordVO{" +
+                "recordId='" + recordId + '\'' +
+                ", importId='" + importId + '\'' +
+                ", goodsId='" + goodsId + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", effectType='" + effectType + '\'' +
+                ", effectNum='" + effectNum + '\'' +
+                ", effectTime='" + effectTime + '\'' +
+                '}';
+    }
 }

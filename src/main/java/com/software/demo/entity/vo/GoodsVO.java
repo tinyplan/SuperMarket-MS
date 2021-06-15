@@ -92,4 +92,18 @@ public class GoodsVO {
         this.stock = stock;
     }
 
+    @Override
+    public String toString() {
+        return "GoodsVO{" +
+                "goodsId='" + goodsId + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsType='" + goodsType + '\'' +
+                ", goodsCost=" + goodsCost +
+                ", goodsPrice=" + goodsPrice +
+                ", productionDate='" + productionDate + '\'' +
+                ", duration=" + duration +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", stock=" + stock +
+                '}';
+    }
 }
