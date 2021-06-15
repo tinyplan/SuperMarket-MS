@@ -1,5 +1,7 @@
 package com.software.demo.service.impl;
 
+import com.software.demo.entity.dto.RefundGoodsDTO;
+import com.software.demo.entity.dto.SellGoodsDTO;
 import com.software.demo.service.GoodsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,10 +35,19 @@ class GoodsServiceImplTest {
 
     @Test
     void sellGoods() {
+        SellGoodsDTO sellGoodsDTO = new SellGoodsDTO();
+        sellGoodsDTO.setGoodsId("7312-20210612-12");
+        sellGoodsDTO.setGoodsNum(10);
+        goodsService.sellGoods(sellGoodsDTO);
     }
 
     @Test
     void refundGoods() {
+        RefundGoodsDTO refundGoodsDTO = new RefundGoodsDTO();
+        refundGoodsDTO.setRecordId("20210613-15");
+        refundGoodsDTO.setGoodsId("7312-20210610-8");
+        refundGoodsDTO.setGoodsNum(1);
+        goodsService.refundGoods(refundGoodsDTO);
     }
 
     @Test
