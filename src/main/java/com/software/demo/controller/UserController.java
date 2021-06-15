@@ -8,12 +8,14 @@ import com.software.demo.entity.dto.LoginDTO;
 import com.software.demo.util.CookieUtil;
 import com.software.demo.util.TimeUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,20 +34,18 @@ public class UserController {
         String password = form.getPassword();
         if ("admin".equals(username) && "123456+".equals(password)) {
             HttpSession session = request.getSession();
-            if (session.getAttribute(TokenConstant.TOKEN_KEY) == null) {
-                String token = username + LocalDateTime.now().format(TimeUtil.FORMATTER_DATE);
-                // 设置session
-                session.setAttribute(TokenConstant.TOKEN_KEY, token);
-                session.setAttribute(token, username);
-                session.setMaxInactiveInterval(TokenConstant.EXPIRE);
-                // 设置cookie
-                Cookie cookie = new Cookie(TokenConstant.TOKEN_KEY, token);
-                cookie.setPath("/");
-                cookie.setMaxAge(TokenConstant.EXPIRE);
-                response.addCookie(cookie);
-                return new ApiResult<>(ResultStatus.RES_SUCCESS, "登录成功", token);
-            }
-            return new ApiResult<>(ResultStatus.RES_FAIL, "请勿重复登录", null);
+            String rawToken = username + TimeUtil.nowTime();
+            String token = DigestUtils.md5DigestAsHex(rawToken.getBytes(StandardCharsets.UTF_8));
+            // 设置session
+            session.setAttribute(TokenConstant.TOKEN_KEY, token);
+            session.setAttribute(token, username);
+            session.setMaxInactiveInterval(TokenConstant.EXPIRE);
+            // 设置cookie
+            Cookie cookie = new Cookie(TokenConstant.TOKEN_KEY, token);
+            cookie.setPath("/");
+            cookie.setMaxAge(TokenConstant.EXPIRE);
+            response.addCookie(cookie);
+            return new ApiResult<>(ResultStatus.RES_SUCCESS, "登录成功", token);
         }
         return new ApiResult<>(ResultStatus.RES_FAIL, "用户名或密码错误", null);
     }

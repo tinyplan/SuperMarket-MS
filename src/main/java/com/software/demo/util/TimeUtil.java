@@ -1,8 +1,12 @@
 package com.software.demo.util;
 
+import com.software.demo.entity.ResultStatus;
+import com.software.demo.exception.BusinessException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 
@@ -52,24 +56,44 @@ public class TimeUtil {
      */
 
     public static String plusDayForDate(String startDate, Integer during, DateTimeFormatter formatter) {
-        LocalDate start = LocalDate.parse(startDate, formatter);
-        return start.plusDays(during).format(formatter);
+        try {
+            LocalDate start = LocalDate.parse(startDate, formatter);
+            return start.plusDays(during).format(formatter);
+        } catch (DateTimeParseException e) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "时间格式化错误");
+        }
     }
 
     public static String plusDayForTime(String startTime, Integer during, DateTimeFormatter formatter) {
-        LocalDateTime start = LocalDateTime.parse(startTime, formatter);
-        return start.plusDays(during).format(formatter);
+        try {
+            LocalDateTime start = LocalDateTime.parse(startTime, formatter);
+            return start.plusDays(during).format(formatter);
+        } catch (DateTimeParseException e) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "时间格式化错误");
+        }
     }
 
     public static boolean isBeforeDate(String start, String end) {
-        LocalDate startDate = LocalDate.parse(start, FORMATTER_DATE);
-        LocalDate endDate = LocalDate.parse(end, FORMATTER_DATE);
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        try {
+            startDate = LocalDate.parse(start, FORMATTER_DATE);
+            endDate = LocalDate.parse(end, FORMATTER_DATE);
+        }catch (DateTimeParseException e) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "时间格式化错误");
+        }
         return startDate.isBefore(endDate);
     }
 
     public static boolean isBeforeTime(String start, String end) {
-        LocalDateTime startTime = LocalDateTime.parse(start, FORMATTER_TIME);
-        LocalDateTime endTime = LocalDateTime.parse(end, FORMATTER_TIME);
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+        try {
+            startTime = LocalDateTime.parse(start, FORMATTER_TIME);
+            endTime = LocalDateTime.parse(end, FORMATTER_TIME);
+        }catch (DateTimeParseException e) {
+            throw new BusinessException(ResultStatus.RES_FAIL, "时间格式化错误");
+        }
         return startTime.isBefore(endTime);
     }
 

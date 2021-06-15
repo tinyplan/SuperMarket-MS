@@ -1,5 +1,7 @@
 package com.software.demo.util;
 
+import org.springframework.util.DigestUtils;
+
 /**
  * 商品ID工具类
  * <p>
@@ -25,9 +27,8 @@ public class IdUtil {
      * @return 商品的base_id
      */
     public static String generateBaseId(String goodsName) {
-        // 这里hash码取前4位, 所以使用除法
-        // 取后四位的话(也就是取余操作), 可能出现前几位为0的情况, 使计算后的结果不足4位
-        return goodsName.hashCode() / 100000 + "";
+        String md5 = DigestUtils.md5DigestAsHex(goodsName.getBytes());
+        return md5.substring(0, 6);
     }
 
     /**

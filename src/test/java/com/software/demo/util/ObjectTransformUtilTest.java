@@ -2,7 +2,12 @@ package com.software.demo.util;
 
 import com.software.demo.entity.po.StockRecord;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.DigestUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLOutput;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,7 +50,7 @@ class ObjectTransformUtilTest {
     }
 
     @Test
-    void test() {
+    void test() throws UnsupportedEncodingException {
         // LocalDate now = LocalDate.now();
         // System.out.println(TimeUtil.firstTimeOfDay(now));
         // System.out.println(TimeUtil.firstTimeOfNextDay(now));
@@ -60,7 +65,16 @@ class ObjectTransformUtilTest {
         // String pattern2 = "^[+\\-*/]*$";
         // System.out.println(Pattern.matches(pattern1, pureNumber));
         // System.out.println(Pattern.matches(pattern2, pureChar));
-        String floatStr = "1.11111111111111111111111";
-        System.out.println(Pattern.matches("^\\d+\\.?\\d*\\d$", floatStr));
+        String floatStr = "1.0";
+        System.out.println(Pattern.matches("^\\d+(\\.\\d+)?$", floatStr));
+        // System.out.println(DigestUtils.md5DigestAsHex("小熊饼干 2".getBytes()));
+        // String str = "撒";
+        // String newStr = new String(str.getBytes(StandardCharsets.ISO_8859_1));
+        // String newStr1 = new String(str.getBytes("gbk"));
+        // String newStr2 = new String(str.getBytes(StandardCharsets.US_ASCII));
+        // System.out.println(str + str.length());
+        // System.out.println(newStr + newStr.length());
+        // System.out.println(newStr1 + newStr1.length());
+        // System.out.println(newStr2 + newStr2.length());
     }
 }

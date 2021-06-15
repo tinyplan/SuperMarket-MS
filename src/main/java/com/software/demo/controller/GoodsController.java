@@ -4,18 +4,15 @@ import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.dto.*;
-import com.software.demo.entity.po.Goods;
 import com.software.demo.entity.vo.GoodsVO;
 import com.software.demo.entity.vo.Pagination;
 import com.software.demo.service.GoodsService;
-import com.software.demo.util.ObjectTransformUtil;
 import com.software.demo.util.PaginationUtil;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -78,7 +75,7 @@ public class GoodsController {
      */
     @PostMapping("/modify")
     @Authorization
-    public ApiResult<Object> modifyGoodsInfo(@RequestBody ModifyGoodsDTO dto) {
+    public ApiResult<Object> modifyGoodsInfo(@RequestBody @Validated ModifyGoodsDTO dto) {
         if (dto.getGoodsPrice() <= 0.0f || dto.getGoodsPrice() > 10000.0f) {
             return new ApiResult<>(ResultStatus.RES_FAIL, "售价应大于等于0, 小于10000");
         }

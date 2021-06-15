@@ -21,7 +21,7 @@
     <select id="queryAllRecord" resultMap="recordDOMapping">
         SELECT `record_id`,
                `import_id`,
-               sr.`goods_id`,
+               `sr`.`goods_id`,
                `goods_name`,
                `goods_type`,
                `price`,
@@ -29,9 +29,10 @@
                `effect_type`,
                `effect_num`,
                `effect_time`
-        FROM `stock_record` AS sr
-        LEFT JOIN goods_info gi on sr.goods_id = gi.goods_id
-        WHERE import_id IS NULL AND effect_type = -1
+        FROM `stock_record` AS `sr`
+        LEFT JOIN `goods_info` AS `gi` on `sr`.`goods_id` = `gi`.`goods_id`
+        WHERE `import_id` IS NULL AND `effect_type` = -1
+        ORDER BY `effect_time` DESC
     </select>
 
 </mapper>

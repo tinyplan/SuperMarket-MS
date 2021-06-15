@@ -48,21 +48,22 @@
         SELECT
         <include refid="recordColumn"/>
         FROM `stock_record`
-        WHERE `import_id` == null AND `effect_type` == -1
+        WHERE `import_id` IS NULL AND `effect_type` == -1
     </select>
 
     <select id="queryAllRecord" resultMap="recordDOMapping">
         SELECT `record_id`,
                `import_id`,
-               sr.`goods_id` AS `goods_id`,
+               `sr`.`goods_id` AS `goods_id`,
                `goods_name`,
                `price`,
                `profits`,
                `effect_type`,
                `effect_num`,
                `effect_time`
-        FROM stock_record AS sr
-                 LEFT JOIN goods_info gi on sr.goods_id = gi.goods_id
+        FROM `stock_record` AS `sr`
+                 LEFT JOIN `goods_info` AS `gi` on `sr`.`goods_id` = `gi`.`goods_id`
+        ORDER BY `effect_time` DESC
     </select>
 
 </mapper>

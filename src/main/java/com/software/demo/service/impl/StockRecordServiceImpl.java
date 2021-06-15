@@ -25,7 +25,7 @@ public class StockRecordServiceImpl implements StockRecordService {
     @Override
     public List<StockRecordVO> queryAllRecord() {
         List<StockRecordVO> result = new ArrayList<>();
-        stockRecordMapper.queryAllRecord().forEach(stockRecordDO -> {
+        for (StockRecordDO stockRecordDO : stockRecordMapper.queryAllRecord()) {
             StockRecordVO temp = ObjectTransformUtil.transform(stockRecordDO, StockRecordVO.class);
             temp.setEffectNum(StockEffectType.getDescByKey(stockRecordDO.getEffectType()) + stockRecordDO.getEffectNum());
             if (StockEffectType.SUBTRACT.getKey().equals(stockRecordDO.getEffectType())) {
@@ -38,7 +38,7 @@ public class StockRecordServiceImpl implements StockRecordService {
                 }
             }
             result.add(temp);
-        });
+        }
         return result;
     }
 }
