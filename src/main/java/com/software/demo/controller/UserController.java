@@ -7,7 +7,6 @@ import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.dto.LoginDTO;
 import com.software.demo.util.CookieUtil;
 import com.software.demo.util.TimeUtil;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 

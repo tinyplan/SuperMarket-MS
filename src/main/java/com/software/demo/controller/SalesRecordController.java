@@ -1,5 +1,6 @@
 package com.software.demo.controller;
 
+import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.vo.Pagination;
@@ -27,6 +28,7 @@ public class SalesRecordController {
     private SalesRecordService salesRecordService;
 
     @GetMapping("/getAll")
+    @Authorization
     public ApiResult<Pagination<SalesRecordVO>> getAllSalesRecord(@RequestParam("pageSize") Integer limit) {
         return new ApiResult<>(ResultStatus.RES_SUCCESS,
                 PaginationUtil.getPagination(salesRecordService.queryAllRecord(), limit));

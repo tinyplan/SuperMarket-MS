@@ -1,5 +1,6 @@
 package com.software.demo.controller;
 
+import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.vo.Pagination;
@@ -25,6 +26,7 @@ public class StockRecordController {
     private StockRecordService stockRecordService;
 
     @GetMapping("/getAll")
+    @Authorization
     public ApiResult<Pagination<StockRecordVO>> getAllStockRecord(@RequestParam("pageSize") Integer limit) {
         return new ApiResult<>(ResultStatus.RES_SUCCESS,
                 PaginationUtil.getPagination(stockRecordService.queryAllRecord(), limit));

@@ -5,6 +5,7 @@ import com.software.demo.constant.TokenConstant;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.exception.BusinessException;
 import com.software.demo.util.CookieUtil;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,10 +21,11 @@ import java.lang.reflect.Method;
  * <p>
  * 请求权限校验
  */
+@Component
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 映射到方法
         if (handler instanceof HandlerMethod) {
             Method method = ((HandlerMethod) handler).getMethod();

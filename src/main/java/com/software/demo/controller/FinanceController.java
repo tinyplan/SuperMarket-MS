@@ -1,5 +1,6 @@
 package com.software.demo.controller;
 
+import com.software.demo.annotation.Authorization;
 import com.software.demo.entity.ApiResult;
 import com.software.demo.entity.ResultStatus;
 import com.software.demo.entity.vo.FinanceSummaryVO;
@@ -25,6 +26,7 @@ public class FinanceController {
     private GoodsService goodsService;
 
     @GetMapping("/summary")
+    @Authorization
     public ApiResult<Pagination<FinanceSummaryVO>> getFinanceSummary(@RequestParam("type") String type,
                                                                      @RequestParam("pageSize") Integer limit) {
         if (!"day".equals(type) && !"month".equals(type)) {
